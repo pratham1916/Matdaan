@@ -9,6 +9,7 @@ import AdminResult from '../Pages/AdminResult';
 import Vote from '../Pages/Vote';
 import UserResult from '../Pages/UserResult';
 import Contact from '../Pages/Contact'
+import styles from '../css/Main.module.css'
 
 
 const Main = () => {
@@ -16,9 +17,9 @@ const Main = () => {
     return (
         <>
         <Navbar setPage={setPage} page={page} />
-        <div style={{width: "100%", height: "400px", border: "1px solid red"}}>
-            <h1>Welcome to Voting Portal</h1>
-            <p>Your voices are being heard and you are proving to our ancestors that their struggles were not in vain. Now we have one more thing we need to do to walk in our true power, and that is to vote.</p>
+        <div className={styles.bodyx} style={{width: "99.9%", height: "450px", border:"1px solid white"}}>
+            <h1 style={{padding:"100px 0 0 490px ",fontSize:"40px"}}>Welcome to Voting Portal</h1>
+            <p style={{margin:"30px 300px 0 370px",fontWeight:"600",textAlign:"justify"}}>Your voices are being heard and you are proving to our ancestors that their struggles were not in vain. Now we have one more thing we need to do to walk in our true power, and that is to vote.</p>
         </div>
         {page === "Home" && <Home/> }
         {page === "About" && <About/> }
@@ -33,5 +34,4 @@ const Main = () => {
         </>
     )
 }
-
 export default Main;

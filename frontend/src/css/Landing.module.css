@@ -12,6 +12,9 @@
   margin-right: 20px;
   text-align: justify;
 }
+.rulesection h3{
+ text-align: center;
+}
 .btn{
   font-size: 14px;
   border-radius: 10px;
@@ -24,7 +27,6 @@
 .btn:hover{
   color: red;
   background-color: white;
-  border-radius: 1px solid red;
 } 
 input::placeholder{
   font-weight: bold;

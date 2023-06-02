@@ -95,22 +95,23 @@ const Landing = () => {
     }
 
     const formstyle = {background: "white", padding: "15px", borderRadius: "20px"}
+    const regtext = {margin:"0 0 0 65px", width:"300px"}
 
     return (
         //main component
         <div>
             {/* left components */}
             <div style={left}>
-                <h1 style={{ margin: "400px 0 0 350px", color: "white" , fontSize:"35px" }}><b>मतदान !</b></h1>
+                <h1 style={{ margin: "400px 0 0 500px", color: "white" , fontSize:"35px" }}><b>मतदान !</b></h1>
                 <p style={{ color: "white" , marginLeft:"360px" }}>Young or Old, Black or White, Cast your Vote, Its your right.</p>
                 <span>
-                    <button className={styles.btn} style={{margin:"10px 35px 20px 350px"}} onClick={() => setRight("Login")}>Login</button>
+                    <button className={styles.btn} style={{margin:"10px 35px 20px 450px"}} onClick={() => setRight("Login")}>Login</button>
                 </span>
                 <span class="registerlb">
                     <button className={styles.btn} onClick={() => setRight("Signup")}>Register</button>
                 </span>
                 <div class="rulelb">
-                    <a className={styles.btn} style={{ margin:"545px" }} onClick={() => setRight("Rules")}>Rules</a>
+                    <a className={styles.btn} style={{ margin:"515px" }} onClick={() => setRight("Rules")}>Rules</a>
                 </div>
             </div>
 
@@ -147,16 +148,16 @@ const Landing = () => {
 
                 {right === "Login" && 
                 <section style={{...formstyle,margin:"180px 50px 0 50px"}}>
-                    <h3 style={{margin:"50px 0 30px 0"}}>Please enter your Voter ID And Password</h3>
+                    <h3 style={{textAlign:'center'}}>Please enter your Voter ID And Password</h3>
                     <Form form={form} onFinish={onFinish}>
                         <Form.Item name='voterId'>
-                            <Input style={{ width: "300px",borderRadius:"10px",height:"35px"}} placeholder='Enter 17 digit voter Id' required />
+                            <Input style={{margin:"20px 0 0 65px", width: "300px",borderRadius:"10px",height:"35px"}} placeholder='Enter 10 digit voter Id' required />
                         </Form.Item>
                         <Form.Item name='password'>
-                            <Input style={{ width: "300px",borderRadius:"10px",height:"35px"}} placeholder='Enter password' required />
+                            <Input style={{margin:"0 0 0 65px", width: "300px",borderRadius:"10px",height:"35px"}} placeholder='Enter password' required />
                         </Form.Item>
                         <Form.Item>
-                            <Button htmlType='submit' loading={loading}>Login</Button>
+                            <button style={{fontSize:"11px",marginLeft:"170px"}} className={styles.btn} htmlType='submit' loading={loading}>Login</button>
                         </Form.Item>
                         <motion.div initial={{opacity: 0, marginBottom: 0}}
                         animate={{
@@ -171,21 +172,21 @@ const Landing = () => {
                 </section>}
 
                 {right === "Signup" && 
-                <section style={{...formstyle,margin:"20px 20px 0 20px"}}>
-                    <h3 style={{marginTop:"0"}}>Please enter your Information</h3>
+                <section style={{...formstyle,margin:"50px 50px 0 50px"}}>
+                    <h3 style={{marginTop:"15px",textAlign:"center"}}>Please enter your Valid Information</h3>
 
                     <Form form={form} onFinish={onFinish}>
                         <Form.Item name='name'>
-                            <Input placeholder="Full Name" required />
+                            <Input style={{...regtext,marginTop:"20px"}} placeholder="Full Name" required />
                         </Form.Item>
                         <Form.Item name='email' rules={[{type: "email", message: "Please enter a valid email"}]}>
-                            <Input placeholder='Enter Email' required />
+                            <Input style={{...regtext}} placeholder='Enter Email' required />
                         </Form.Item>
                         <Form.Item
                             name='phone'>
-                            <Input placeholder='Enter Contact no.' required maxLength={10} minLength={10} />
+                            <Input style={{...regtext}} placeholder='Enter Contact no.' required maxLength={10} minLength={10} />
                         </Form.Item>
-                        <Form.Item
+                        <Form.Item style={{...regtext,width:"320px",marginTop:"0"}}
                             name='gender'
                             label='Gender'>
                             <Radio.Group onChange={(e) => e}>
@@ -195,27 +196,27 @@ const Landing = () => {
                             </Radio.Group>
                         </Form.Item>
                         <Form.Item name="state">
-                            <Select onChange={(e)=>setCurrentState(e)} showSearch placeholder='Select State'>
+                            <Select style={{...regtext,marginTop:"20px"}} onChange={(e)=>setCurrentState(e)} showSearch placeholder='Select State'>
                                 {allStates.map((e)=> (
                                  <Select.Option value={e.name} key={e.name}>{e.name}</Select.Option>
                                 ))}
                             </Select>
                         </Form.Item>
                         <Form.Item name="city">
-                            <Select showSearch placeholder='Select City'>
+                            <Select style={{...regtext}} showSearch placeholder='Select City'>
                             {allCities.map((e)=> (
                                  <Select.Option value={e.name} key={e.name}>{e.name}</Select.Option>
                                 ))}
                             </Select>
                         </Form.Item>
                         <Form.Item name="dob">
-                            <DatePicker format='DD/MM/YYYY' placeholder='Date OF Birth' />
+                            <DatePicker style={{...regtext}}  format='DD/MM/YYYY' placeholder='Date OF Birth' />
                         </Form.Item>
                         <Form.Item name="password">
-                            <Input placeholder='Password' onChange={(e)=>setPassword(e.target.value)}/>
+                            <Input style={{...regtext}} placeholder='Password' onChange={(e)=>setPassword(e.target.value)}/>
                         </Form.Item>
                         <Form.Item>
-                            <Button htmlType='submit' >Login</Button>
+                            <button style={{fontSize:"11px",marginLeft:"170px"}} className={styles.btn} htmlType='submit' >Register</button>
                         </Form.Item>
                     </Form>
                 </section>
