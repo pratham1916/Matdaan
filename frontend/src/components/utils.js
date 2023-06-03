@@ -1,4 +1,21 @@
-const isAdmin = true;
+import { Routes, Route, Navigate, Outlet } from 'react-router-dom'
+
+let isAdmin = null;
+
+const checkAdmin = async() => {
+    const user = await JSON.parse(localStorage.getItem("matdaan"));
+    if (user) {
+        isAdmin = user.isAdmin;
+    } else {
+        isAdmin = null
+    }
+    isLoggedIn()
+}
+const isLoggedIn = () => {
+    if (isAdmin != null) return <Outlet/>;
+    else  <Navigate to="/home"/>;
+}
+
 const isMenuAllowed  = (x) => {
     let permission;
     if (isAdmin) {
@@ -9,4 +26,4 @@ const isMenuAllowed  = (x) => {
     return permission;
 }
 
-export default isMenuAllowed;
+export {isMenuAllowed , checkAdmin, isLoggedIn};

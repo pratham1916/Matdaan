@@ -7,6 +7,7 @@ import {keyBy} from 'lodash'
 import axios from 'axios';
 import {motion} from "framer-motion";
 import {useNavigate} from 'react-router-dom'
+import { checkAdmin } from './utils';
 
 const Landing = () => {
     const navigate = useNavigate();
@@ -62,6 +63,8 @@ const Landing = () => {
                     setError(res.data.message)
                     return setLoading(false)
                 }
+                localStorage.setItem("matdaan", JSON.stringify(res.data.user))
+                await checkAdmin();
                 message.success(res.data.message)
                 form.resetFields();
                 navigate("/home")

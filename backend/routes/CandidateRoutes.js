@@ -35,6 +35,7 @@ const fileFields = [{name: "profilePic"}, {name: "signature"}];
 router.get('/', async (req,res) => {
     const query = req.query;
     try {
+        const filters = JSON.parse(req.get('filters') || '{}');
         const options = {};
         const quote = {};
         if (query) {
@@ -42,6 +43,14 @@ router.get('/', async (req,res) => {
             else options.page = 1;
 
             if (query.limit) options.limit = Number(query.limit);
+        };
+        if (filters) {
+            const fil = filters.status;
+            if (fil === "Current" ) {
+                quote.status = fil;
+            } else if (fil === "Previous" ) {
+                quote.status = fil;
+            };
         };
         const candidate = await CandidateModel.paginate(quote, options);
         return res.send({status: "success", candidate: candidate.docs, count: candidate.totalDocs, pages: candidate.totalPages});
@@ -72,7 +81,7 @@ router.post("/add", multer({storage, fileFilter}).fields(fileFields), async (req
         };
     
         const candidate = new CandidateModel({
-            name, email, dob, gender, phone, state, city, voterId, aadhar, party, position
+            name, email, dob, gender, phone, state, city, voterId, aadhar, party, position, status: "Previous"
         });
         await candidate.save();
         const toUpdate = {};
@@ -99,8 +108,9 @@ router.post("/add", multer({storage, fileFilter}).fields(fileFields), async (req
             if (toCleanUp.length > 0) {
                 upload.cleanUp(toCleanUp);
             }
-            return res.send({status: "success", candidate: candidate, images: toUpdate, reject: req.fileError})
+            return res.send({status: "success", candidate: candidate, images: toUpdate, reject: req.fileError, message: "Candidate Added Succesfully"})
         }
+        return res.send({status: "success", message: "Candidate Added Succesfully"})
     } catch {
         return res.send({status: "error", message: "Error adding data"})
     }    

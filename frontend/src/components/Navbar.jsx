@@ -1,12 +1,16 @@
 import React, { useState,useEffect } from 'react';
 import styles from '../css/Navbar.module.css'
 import {Button} from 'antd'
- import isMenuAllowed from './utils';
+ import {checkAdmin, isMenuAllowed} from './utils';
+import {useNavigate} from 'react-router-dom'
+
 
 const navbutton = {color:"Black",borderRadius:"20px",fontWeight:"600"}
 
 
 const Navbar = ({setPage, page}) => {
+    const navigate = useNavigate();
+
     return (
         <div className={styles.header}>
 
@@ -24,7 +28,7 @@ const Navbar = ({setPage, page}) => {
             {isMenuAllowed("Vote") && <Button style={{...navbutton}} onClick={()=>setPage("Vote")}>Vote</Button>}
             {isMenuAllowed("User Result") && <Button style={{...navbutton}} onClick={()=>setPage("User Result")}>Result</Button>}
             {isMenuAllowed("Contact") && <Button style={{...navbutton}} onClick={()=>setPage("Contact")}>Contact</Button>}
-            <Button style={{...navbutton}}>Logout</Button>
+            <Button style={{...navbutton}} onClick={() => { localStorage.removeItem("matdaan"); navigate("/"); checkAdmin()} }>Logout</Button>
         </div> 
             
 

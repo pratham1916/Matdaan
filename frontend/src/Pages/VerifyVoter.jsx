@@ -1,18 +1,19 @@
 import React, {useState, useEffect} from "react";
-import {Row, Col, Radio, Typography, Card, Table} from "antd";
-import EnhancedTable from "../components/EnahancedTable";
+import {Row, Col, Radio, Typography, Card, Table, Tag, Modal, message} from "antd";
 import axios from "axios";
+import { ExclamationCircleFilled } from '@ant-design/icons';
 import { Button } from "antd/es/radio";
 import {format} from 'date-fns'
 
+const { confirm } = Modal;
 const VerifyVoter = () => {
-    const [status, setStatus] = useState("All");
+    const [statuss, setStatus] = useState("All");
     const [refreshing, setRefreshing] = useState(true)
     const [voters, setVoters] = useState([]);
 
     useEffect(() => {
         onLoad()
-    },[status])
+    },[statuss])
 
     useEffect(() => {
         onLoad()
@@ -33,7 +34,7 @@ const VerifyVoter = () => {
         try{
             let url = `http://localhost:8080/user?page=${pagination.current}&limit=${pagination.pageSize}`
             const res = await axios.get(url, {
-                headers: { filters: JSON.stringify({status: status})}
+                headers: { filters: JSON.stringify({status: statuss})}
             })
             setVoters(res.data.user)
         } catch {
@@ -41,6 +42,28 @@ const VerifyVoter = () => {
         }
         setRefreshing(false)
     }
+
+   const onChangeStatus = async (id, status) => {
+    try {
+        confirm({
+            title: `Do you Want to ${status === "Verified" ? "Verify" : "Un-Verify"} this Voter?`,
+            icon: <ExclamationCircleFilled />,
+            onOk: async () => {
+              const res = await axios.put(`http://localhost:8080/user/${id}`, {status: status});
+              if (res.data.status === "error") {
+                message.error("Invalid Error")
+              } else {
+                onLoad();
+              }
+            },
+            onCancel() {
+              console.log('Cancel');
+            },
+        });
+    } catch (error) {
+        
+    }
+   }
 
     const onTableChange = (pagination, filters) => {
         onLoad({pagination, filters})
@@ -106,14 +129,14 @@ const VerifyVoter = () => {
             )
         },
         {
-            title: "Action",
-            dataIndex: "actions",
-            render: (_) => (
-                <div style={{display: "flex", gap: "5px"}}>
-                <Button>Verify</Button>
-                <Button>Un-Verify</Button>
-                </div>
-
+            title: statuss === "All" ? "Status" : "Action",
+            dataIndex: "status",
+            render: (_,{status, _id}) => (
+                <>
+                {statuss === "Not Verified" && <Button type="primary" style={{backgroundColor: "green", color: "white"}} onClick={() => onChangeStatus(_id, "Verified")}>Verify</Button>}
+                {statuss === "Verified" && <Button type="default" style={{backgroundColor: "red", color: "white"}} onClick={() => onChangeStatus(_id, "Not Verified")}>Un-Verify</Button>}
+                {statuss === "All" &&  <Tag color={status === "Not Verified" ? "red" : "green"}>{status}</Tag>}
+                </>
             )
         },
     ]
@@ -130,7 +153,7 @@ const VerifyVoter = () => {
                 </Col>
             </Row>
             <div>
-                <Radio.Group value={status} onChange={e => setStatus(e.target.value)} buttonStyle="solid" size="small">
+                <Radio.Group value={statuss} onChange={e => setStatus(e.target.value)} buttonStyle="solid" size="small">
                     <Radio.Button value="All">&emsp;All&nbsp;</Radio.Button>
                     <Radio.Button value="Verified">&nbsp;Verified&nbsp;</Radio.Button>
                     <Radio.Button value="Not Verified">&emsp;Not Verified&nbsp;</Radio.Button>

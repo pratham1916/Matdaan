@@ -14,7 +14,8 @@ const CandidateSchema = new mongoose.Schema({
     party: {type: String},
     position: {type: String},
     profilePic: {type: String},
-    signature: {type: String},   
+    signature: {type: String}, 
+    status: {type: String}  
 });
 
 CandidateSchema.plugin(paginate);
