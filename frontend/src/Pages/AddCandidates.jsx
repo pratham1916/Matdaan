@@ -3,6 +3,7 @@ import { Button, Form, Input, Radio, Select, DatePicker, Alert, message, Upload 
 import {State,City} from 'country-state-city'
 import {keyBy} from 'lodash'
 import {PlusOutlined} from '@ant-design/icons';
+import section from '../css/Section.module.css'
 import styles from '../css/AddCandidate.module.css'
 import election from '../img/election.png'
 import axios from "axios";
@@ -72,17 +73,16 @@ const AddCandidate = () => {
         }
         setLoading(false);
     }
-
-
     const image = {
         backgroundImage: `url(${election})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "100% 100%",
         width: "45%",
-        height: "65vh",
-        border: "1px solid red",
+        height: "70vh",
+        borderRadius:"25px"
     };
-    const regtext = {margin:"0 0 0 65px", width:"300px"}
+
+    const textfield = {margin:"0 0 0 50px", width:"347px",border:"1px solid orange"}
 
     const getFile = (event) =>{
         if(Array.isArray(event)) {
@@ -101,38 +101,57 @@ const AddCandidate = () => {
 
     return (
         <>
-        <section className={styles.sec}>
-            <div className={styles.section_title}>
+        <section className={section.sec}>
+            <div className={section.section_title}>
                 <h2>hhh</h2>
                 <p>Add Candidate</p>
             </div>
             <div style={{display: "flex", justifyContent: "space-between"}}>
 				<div style={image}></div>
-                <div style={{width: "45%",  border: "1px solid red", }}>
+                <div style={{width: "45%",border:"1px solid red"}}>
+
                 <Form form={form} onFinish={onFinish}>
-                        <Form.Item name='profilePic' label="Profile" getValueFromEvent={getFile} rules={[{required: true, message: "Please add Profile"}]}>
-                            <Upload  listType="picture-card" showUploadList={false} beforeUpload={getImagePreview} maxCount={1} accept="image/*">
-                                {imagePreview ? 
-                                <img src={imagePreview} alt="avatar" style={{width: "100%"}}/> :
-                                (
-                                    <div>
-                                        <PlusOutlined/>
-                                        <div style={{marginTop: 8}}>Upload</div>
-                                    </div>
-                                )
-                            }
-                            </Upload>
+                        <div style={{display:"flex"}}>
+                            <Form.Item style={{padding:"53px 20px 0 30px"}} name='profilePic' getValueFromEvent={getFile} rules={[{required: true, message: "Please add Profile"}]}>
+                                <Upload listType="picture-card" showUploadList={false} beforeUpload={getImagePreview} maxCount={1} accept="image/*">
+                                    {imagePreview ? 
+                                    <img src={imagePreview} alt="avatar" style={{width: "100%"}}/> :
+                                    (
+                                        <div>
+                                            <PlusOutlined/>
+                                            <div style={{marginTop: 8}}>Upload</div>
+                                        </div>
+                                    )
+                                }
+                                </Upload>
+                            </Form.Item> 
+                            <div>
+                                <Form.Item name='name' rules={[{required: true, message: "Please add Your Name"}]}>
+                                    <Input style={{...textfield,marginTop:"30px"}} placeholder="Full Name" />
+                                </Form.Item>
+                                <Form.Item name='email' rules={[{ required: true, message: "Please enter a valid email"}]} >
+                                    <Input style={{...textfield}} placeholder='Enter Email' />
+                                </Form.Item>
+                                <Form.Item name="dob" rules={[{required: true, message: "Please add Profile"}]}>
+                                    <DatePicker style={{...textfield}}  format='DD/MM/YYYY' placeholder='Date OF Birth' />
+                                </Form.Item>
+                            </div>
+                        </div>
+
+                        <div style={{display: "flex", justifyContent:"space-around"}}>
+                            <Form.Item name="voterId" rules={[{required: true, message: "Please add Profile"}]}>
+                                <Input style={{border:"1px solid orange",width: "250px",margin:"0"}} placeholder='Voter Id' />
+                            </Form.Item>
+                            <Form.Item name="aadhar" rules={[{required: true, message: "Please add Profile"}]}>
+                                <Input style={{border:"1px solid orange",width: "250px"}} placeholder='Aadhar' />
+                            </Form.Item>
+                        </div>
+                        <Form.Item
+                            name='phone' rules={[{required: true, message: "Please add Profile"}]}>
+                            <Input style={{...textfield,width:"537px",marginLeft:"20px"}} placeholder='Enter Contact no.' maxLength={10} minLength={10} />
                         </Form.Item>
-                        <Form.Item name='name' rules={[{required: true, message: "Please add Profile"}]}>
-                            <Input style={{...regtext,marginTop:"20px"}} placeholder="Full Name" />
-                        </Form.Item>
-                        <Form.Item name='email' rules={[{ required: true, message: "Please enter a valid email"}]} >
-                            <Input style={{...regtext}} placeholder='Enter Email' />
-                        </Form.Item>
-                        <Form.Item name="dob" rules={[{required: true, message: "Please add Profile"}]}>
-                            <DatePicker style={{...regtext}}  format='DD/MM/YYYY' placeholder='Date OF Birth' />
-                        </Form.Item>
-                        <Form.Item style={{...regtext,width:"320px",marginTop:"0"}}
+
+                        <Form.Item style={{width:"320px",margin:"0 0 0 100px"}}
                             name='gender'
                             label='Gender' rules={[{required: true, message: "Please add Profile"}]}>
                             <Radio.Group onChange={(e) => e}>
@@ -140,18 +159,6 @@ const AddCandidate = () => {
                                 <Radio value="Female">Female</Radio>
                                 <Radio value="Other">Other</Radio>
                             </Radio.Group>
-                        </Form.Item>
-                        <div style={{display: "flex", justifyContent:"space-around"}}>
-                            <Form.Item name="voterId" rules={[{required: true, message: "Please add Profile"}]}>
-                                <Input style={{width: "250px"}} placeholder='Voter Id' />
-                            </Form.Item>
-                            <Form.Item name="aadhar" rules={[{required: true, message: "Please add Profile"}]}>
-                                <Input style={{width: "250px"}} placeholder='Aadhar' />
-                            </Form.Item>
-                        </div>
-                        <Form.Item
-                            name='phone' rules={[{required: true, message: "Please add Profile"}]}>
-                            <Input style={{...regtext}} placeholder='Enter Contact no.' maxLength={10} minLength={10} />
                         </Form.Item>
                         <div style={{display: "flex", justifyContent:"space-around"}}>
                             <Form.Item name="state" rules={[{required: true, message: "Please add Profile"}]}>
@@ -170,7 +177,7 @@ const AddCandidate = () => {
                             </Form.Item>
                         </div>
                         <Form.Item name="party" rules={[{required: true, message: "Please add Profile"}]}>
-                            <Select style={{...regtext}} placeholder="Party">
+                            <Select style={{...textfield}} placeholder="Party">
                                 <Select.Option value="BJP">BJP</Select.Option>
                                 <Select.Option value="AAP">AAP</Select.Option>
                                 <Select.Option value="Congress">Congress</Select.Option>
@@ -178,7 +185,7 @@ const AddCandidate = () => {
                             </Select>
                         </Form.Item>
                         <Form.Item name="position" rules={[{required: true, message: "Please add Profile"}]}>
-                            <Input style={{...regtext}} placeholder='possition' />
+                            <Input style={{...textfield}} placeholder='possition' />
                         </Form.Item>
                         <Form.Item>
                             <Button style={{fontSize:"11px",marginLeft:"170px"}} className={styles.btn} htmlType='submit' >Register</Button>
