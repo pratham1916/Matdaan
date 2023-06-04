@@ -1,5 +1,6 @@
 import React from "react";
 import '../css/Footer.css'
+import { FaGithub, FaInstagram, FaFacebook } from 'react-icons/fa';
 
 const Footer = () =>{
     return(
@@ -9,9 +10,9 @@ const Footer = () =>{
                 <h3>मतदान !</h3>
                 <p>चाहे नर हो या हो नारी,मतदान है सबकी जिम्मेदारी।</p>
                 <div class="social-links">
-                    <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-                    <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-                    <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                    <a href="#"><FaGithub /></a>
+                    <a href="#"><FaInstagram /></a>
+                    <a href="#"><FaFacebook /></a>
                 </div>
             </div>
         </footer>
