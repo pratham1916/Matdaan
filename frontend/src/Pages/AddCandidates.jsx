@@ -3,11 +3,11 @@ import { Button, Form, Input, Radio, Select, DatePicker, Alert, message, Upload 
 import {State,City} from 'country-state-city'
 import {keyBy} from 'lodash'
 import {PlusOutlined} from '@ant-design/icons';
-import section from '../css/Section.module.css'
+import Heading from '../css/Heading.module.css'
 import styles from '../css/AddCandidate.module.css'
 import election from '../img/election.png'
 import axios from "axios";
-
+    
 
 const AddCandidate = () => {
     const [form] = Form.useForm();
@@ -77,12 +77,13 @@ const AddCandidate = () => {
         backgroundImage: `url(${election})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "100% 100%",
-        width: "45%",
-        height: "70vh",
+        width: "50%",
+        height: "77vh",
         borderRadius:"25px"
     };
 
     const textfield = {margin:"0 0 0 50px", width:"347px",border:"1px solid orange"}
+    const errormes = {textAlign:"center"}
 
     const getFile = (event) =>{
         if(Array.isArray(event)) {
@@ -101,14 +102,14 @@ const AddCandidate = () => {
 
     return (
         <>
-        <section className={section.sec}>
-            <div className={section.section_title}>
+        <section className={Heading.sec}>
+            <div className={Heading.section_title}>
                 <h2>hhh</h2>
                 <p>Add Candidate</p>
             </div>
             <div style={{display: "flex", justifyContent: "space-between"}}>
 				<div style={image}></div>
-                <div style={{width: "45%",border:"1px solid red"}}>
+                <div style={{width: "45%",backgroundColor:"#41424C",borderRadius:"20px"}}>
 
                 <Form form={form} onFinish={onFinish}>
                         <div style={{display:"flex"}}>
@@ -126,34 +127,33 @@ const AddCandidate = () => {
                                 </Upload>
                             </Form.Item> 
                             <div>
-                                <Form.Item name='name' rules={[{required: true, message: "Please add Your Name"}]}>
+                                <Form.Item name='name' style={{...errormes}} rules={[{required: true, message: "Please Enter Your Name"}]}>
                                     <Input style={{...textfield,marginTop:"30px"}} placeholder="Full Name" />
                                 </Form.Item>
-                                <Form.Item name='email' rules={[{ required: true, message: "Please enter a valid email"}]} >
+                                <Form.Item name='email' style={{...errormes}} rules={[{ required: true, message: "Please Enter Your Email"}]} >
                                     <Input style={{...textfield}} placeholder='Enter Email' />
                                 </Form.Item>
-                                <Form.Item name="dob" rules={[{required: true, message: "Please add Profile"}]}>
+                                <Form.Item name="dob" style={{...errormes}} rules={[{required: true, message: "Please Enter Your DOB"}]}>
                                     <DatePicker style={{...textfield}}  format='DD/MM/YYYY' placeholder='Date OF Birth' />
                                 </Form.Item>
                             </div>
                         </div>
 
                         <div style={{display: "flex", justifyContent:"space-around"}}>
-                            <Form.Item name="voterId" rules={[{required: true, message: "Please add Profile"}]}>
-                                <Input style={{border:"1px solid orange",width: "250px",margin:"0"}} placeholder='Voter Id' />
+                            <Form.Item name="voterId" style={{...errormes}} rules={[{required: true, message: "Please Enter Your Voter ID"}]}>
+                                <Input style={{border:"1px solid orange",width: "250px",margin:"0"}} placeholder='Voter ID' />
                             </Form.Item>
-                            <Form.Item name="aadhar" rules={[{required: true, message: "Please add Profile"}]}>
+                            <Form.Item name="aadhar" style={{...errormes}} rules={[{required: true, message: "Please Enter Your Adhar No."}]}>
                                 <Input style={{border:"1px solid orange",width: "250px"}} placeholder='Aadhar' />
                             </Form.Item>
                         </div>
                         <Form.Item
-                            name='phone' rules={[{required: true, message: "Please add Profile"}]}>
-                            <Input style={{...textfield,width:"537px",marginLeft:"20px"}} placeholder='Enter Contact no.' maxLength={10} minLength={10} />
+                            name='phone' style={{...errormes}} rules={[{required: true, message: "Please Enter Your Contact No."}]}>
+                            <Input style={{...textfield,width:"537px",margin:"0"}} placeholder='Enter Contact no.' maxLength={10} minLength={10} />
                         </Form.Item>
 
-                        <Form.Item style={{width:"320px",margin:"0 0 0 100px"}}
-                            name='gender'
-                            label='Gender' rules={[{required: true, message: "Please add Profile"}]}>
+                        <Form.Item style={{width:"320px",margin:"0 0 20px 180px",fontWeight:"500",color:"white"}}
+                            name='gender' rules={[{required: true, message: "Please Select Gender"}]}>
                             <Radio.Group onChange={(e) => e}>
                                 <Radio value="Male">Male</Radio>
                                 <Radio value="Female">Female</Radio>
@@ -161,34 +161,37 @@ const AddCandidate = () => {
                             </Radio.Group>
                         </Form.Item>
                         <div style={{display: "flex", justifyContent:"space-around"}}>
-                            <Form.Item name="state" rules={[{required: true, message: "Please add Profile"}]}>
-                                <Select style={{width: "250px"}} onChange={(e)=>setCurrentState(e)} showSearch placeholder='Select State'>
+                            <Form.Item name="state" style={{...errormes}} rules={[{required: true, message: "Please Select State"}]}>
+                                <Select style={{width: "250px",border:"1px solid orange",borderRadius:"6px"}} onChange={(e)=>setCurrentState(e)} showSearch placeholder='Select State'>
                                     {allStates.map((e)=> (
                                         <Select.Option value={e.name} key={e.name}>{e.name}</Select.Option>
                                         ))}
                                 </Select>
                             </Form.Item>
-                            <Form.Item name="city" rules={[{required: true, message: "Please add Profile"}]}>
-                                <Select style={{width: "250px"}} showSearch placeholder='Select City'>
+                            <Form.Item name="city" style={{...errormes}} rules={[{required: true, message: "Please Select City"}]}>
+                                <Select style={{width: "250px",border:"1px solid orange",borderRadius:"6px"}} showSearch placeholder='Select City'>
                                 {allCities.map((e)=> (
                                     <Select.Option value={e.name} key={e.name}>{e.name}</Select.Option>
                                     ))}
                                 </Select>
                             </Form.Item>
                         </div>
-                        <Form.Item name="party" rules={[{required: true, message: "Please add Profile"}]}>
-                            <Select style={{...textfield}} placeholder="Party">
-                                <Select.Option value="BJP">BJP</Select.Option>
-                                <Select.Option value="AAP">AAP</Select.Option>
-                                <Select.Option value="Congress">Congress</Select.Option>
-                                <Select.Option value="Other">Other</Select.Option>
-                            </Select>
-                        </Form.Item>
-                        <Form.Item name="position" rules={[{required: true, message: "Please add Profile"}]}>
-                            <Input style={{...textfield}} placeholder='possition' />
-                        </Form.Item>
+                        <div style={{display: "flex", justifyContent:"space-around"}}>
+                            <Form.Item name="party" style={{...errormes}} rules={[{required: true, message: "Please Select Party"}]}>
+                                <Select style={{width: "250px",border:"1px solid orange",borderRadius:"6px"}} placeholder="Party">
+                                    <Select.Option value="BJP">BJP</Select.Option>
+                                    <Select.Option value="AAP">AAP</Select.Option>
+                                    <Select.Option value="Congress">Congress</Select.Option>
+                                    <Select.Option value="Other">Other</Select.Option>
+                                </Select>
+                            </Form.Item>
+                            <Form.Item name="position" style={{...errormes}} rules={[{required: true, message: "Please Enter Your Position"}]}>
+                                <Input style={{border:"1px solid orange",width: "250px"}} placeholder='Position' />
+                            </Form.Item>
+                        </div>
+                        
                         <Form.Item>
-                            <Button style={{fontSize:"11px",marginLeft:"170px"}} className={styles.btn} htmlType='submit' >Register</Button>
+                            <button style={{fontSize:"11px",marginLeft:"250px",fontWeight:"700"}} className={styles.btn} htmlType='submit' >Register</button>
                         </Form.Item>
                     </Form>
                 </div>

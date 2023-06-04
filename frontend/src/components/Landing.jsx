@@ -1,13 +1,12 @@
 import React, { useState,useEffect } from 'react';
 import landing from '../img/landing.jpeg'
-import { Button, Form, Input, Radio, Select, DatePicker, Alert, message } from 'antd'
+import { Form, Input, Radio, Select, DatePicker, Alert, message } from 'antd'
 import styles from '../css/Landing.module.css'
 import {State,City} from 'country-state-city'
 import {keyBy} from 'lodash'
 import axios from 'axios';
 import {motion} from "framer-motion";
 import {useNavigate} from 'react-router-dom'
-import { checkAdmin } from './utils';
 
 const Landing = () => {
     const navigate = useNavigate();
@@ -64,7 +63,6 @@ const Landing = () => {
                     return setLoading(false)
                 }
                 localStorage.setItem("matdaan", JSON.stringify(res.data.user))
-                await checkAdmin();
                 message.success(res.data.message)
                 form.resetFields();
                 navigate("/home")

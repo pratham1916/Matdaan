@@ -1,11 +1,12 @@
 .header {
-    height: 70px;
-    transition: all 0.5s;
-    z-index: 997;
-    transition: all 0.5s;
-    background: rgba(53, 57, 79, 0.9);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 50px;
-  }
+  height: 60px;
+  z-index: 1;
+  background: rgba(53, 57, 79, 0.9);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  position: fixed; 
+  top: 0; 
+  width: 100vw; 
+}

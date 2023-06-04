@@ -4,6 +4,7 @@ import axios from "axios";
 import { ExclamationCircleFilled, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { Button } from "antd/es/radio";
 import {format} from 'date-fns'
+import Heading from '../css/Heading.module.css'
 const { confirm } = Modal;
 
 const CandidateList = () => {
@@ -66,6 +67,13 @@ const CandidateList = () => {
     }
 
     const tableColumns = [
+        {
+            title: "Image",
+            dataIndex: "profilePic",
+            render: (profilePic) => (
+                < div style={{width:"50px",height:"50px"}}><img style={{width:"100%",borderRadius:"30px"}} src={`http://localhost:8080/uploads/${profilePic}`}/></div>
+            )
+        },
         {
             title: "Name",
             dataIndex: "name",
@@ -166,7 +174,7 @@ const CandidateList = () => {
 
     return (
         <>
-        <Row gutter={[8, 8]} justify="space-between" className="mb-4">
+        {/* <Row gutter={[8, 8]} justify="space-between" className="mb-4">
             <Col span={20}>
                 <Row gutter={8}>
                     <Col>
@@ -174,28 +182,35 @@ const CandidateList = () => {
                     </Col>
                 </Row>
             </Col>
-        </Row>
-        <div>
-                <Radio.Group value={statuss} onChange={e => setStatus(e.target.value)} buttonStyle="solid" size="small">
-                    <Radio.Button value="All">&emsp;All&nbsp;</Radio.Button>
-                    <Radio.Button value="Current">&nbsp;Current&nbsp;</Radio.Button>
-                    <Radio.Button value="Previous">&nbsp;Previous&nbsp;</Radio.Button>
-                </Radio.Group>
+        </Row> */}
+
+        <section className={Heading.sec}>
+            <div className={Heading.section_title}>
+                <h2>Admin</h2>
+                <p>About</p>
             </div>
-        <Card
-            bodyStyle={{padding: 0}}
-            className="mt-3"
-        >
-           <Table
-                rowKey='_id'
-                 columns={tableColumns}
-                dataSource={voters}
-                onChange={onTableChange}
-                loading={refreshing}
-                sticky
-                scroll={{ y: "50vh"}}
-            />
-        </Card>
+            <div>
+                    <Radio.Group style={{margin:"0 0 30px 0"}} value={statuss} onChange={e => setStatus(e.target.value)} buttonStyle="solid" size="small">
+                        <Radio.Button value="All">&emsp;All&nbsp;</Radio.Button>
+                        <Radio.Button value="Current">&nbsp;Current&nbsp;</Radio.Button>
+                        <Radio.Button value="Previous">&nbsp;Previous&nbsp;</Radio.Button>
+                    </Radio.Group>
+                </div>
+            <Card
+                bodyStyle={{padding: 0}}
+                className="mt-3"
+            >
+            <Table
+                    rowKey='_id'
+                    columns={tableColumns}
+                    dataSource={voters}
+                    onChange={onTableChange}
+                    loading={refreshing}
+                    sticky
+                    scroll={{ y: "50vh"}}
+                />
+            </Card>
+        </section>
     </>
     )
 }
