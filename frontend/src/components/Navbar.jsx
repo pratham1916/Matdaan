@@ -50,7 +50,7 @@ const Navbar = ({setPage, page}) => {
     return (
         <div className={styles.header}>
 
-            <h1><h3 style={{textDecoration:"none",color:"white", paddingLeft: "50px"}}>मतदान !</h3></h1>  
+            <h1><h3 style={{textDecoration:"none",color:"white", paddingLeft: "50px",fontSize:"30px"}}>मतदान !</h3></h1>  
 
             <div style={{display: "flex", gap: "10px",paddingRight:"65px"}}>
                 <Button style={ isButtonActive('Home') } onClick={()=>handleClick("Home")}>Home</Button>
