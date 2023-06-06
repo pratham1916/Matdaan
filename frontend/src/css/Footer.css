@@ -31,12 +31,12 @@
   background: #ef6603;
   color: #fff;
   line-height: 1;
-  padding: 6px 6px;
+  padding: 3px 1px;
   margin-right: 4px;
   border-radius: 50%;
   text-align: center;
-  width: 20px;
-  height: 18px;
+  width: 30px;
+  height: 30px;
   transition: 0.3s;
 }
 

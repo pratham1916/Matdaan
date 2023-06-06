@@ -2,21 +2,6 @@
     width: 100%;
     background: #fff;
   }
-  
-  .contact .info i {
-    font-size: 20px;
-    color: #ef6603;
-    float: left;
-    width: 44px;
-    height: 44px;
-    background: #ffecde;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50px;
-    transition: all 0.3s ease-in-out;
-  }
-  
   .contact .info h4 {
     padding: 0 0 0 60px;
     font-size: 22px;

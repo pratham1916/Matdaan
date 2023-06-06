@@ -103,17 +103,18 @@ const Landing = () => {
         <div>
             {/* left components */}
             <div style={left}>
-                <h1 style={{ margin: "400px 0 0 500px", color: "white" , fontSize:"35px" }}><b>मतदान !</b></h1>
+                <h1 style={{ margin: "400px 0 20px 500px", color: "white" , fontSize:"35px" }}><b>मतदान !</b></h1>
                 <p style={{ color: "white" , marginLeft:"360px" }}>Young or Old, Black or White, Cast your Vote, Its your right.</p>
                 <span>
-                    <button className={styles.btn} style={{margin:"10px 35px 20px 450px"}} onClick={() => setRight("Login")}>Login</button>
+                    <button className={styles.btn} style={{margin:"10px 35px 10px 400px"}} onClick={() => setRight("Login")}>Login</button>
                 </span>
                 <span class="registerlb">
                     <button className={styles.btn} onClick={() => setRight("Signup")}>Register</button>
                 </span>
-                <div class="rulelb">
-                    <a className={styles.btn} style={{ margin:"515px" }} onClick={() => setRight("Rules")}>Rules</a>
-                </div>
+                <span class="rulelb">
+                    <button className={styles.btn} style={{margin:"0 0 0 40px"}} onClick={() => setRight("Rules")}>Rules</button>
+                </span>
+                
             </div>
 
             {/* right component */}
@@ -149,7 +150,7 @@ const Landing = () => {
 
                 {right === "Login" && 
                 <section style={{...formstyle,margin:"180px 50px 0 50px"}}>
-                    <h3 style={{textAlign:'center'}}>Please enter your Voter ID And Password</h3>
+                    <h3 style={{textAlign:'center',fontWeight:"700", fontSize:"20px",marginTop:"20px"}}>Please enter your Voter ID And Password</h3>
                     <Form form={form} onFinish={onFinish}>
                         <Form.Item name='voterId'>
                             <Input style={{margin:"20px 0 0 65px", width: "300px",borderRadius:"10px",height:"35px"}} placeholder='Enter 10 digit voter Id' required />
@@ -173,15 +174,15 @@ const Landing = () => {
                 </section>}
 
                 {right === "Signup" && 
-                <section style={{...formstyle,margin:"50px 50px 0 50px"}}>
-                    <h3 style={{marginTop:"15px",textAlign:"center"}}>Please enter your Valid Information</h3>
+                <section style={{...formstyle,margin:"30px 50px 0 50px"}}>
+                    <h3 style={{marginTop:"15px",textAlign:"center",fontWeight:"700", fontSize:"20px",marginTop:"20px"}}>Please Enter your Valid Information</h3>
 
                     <Form form={form} onFinish={onFinish}>
                         <Form.Item name='name'>
                             <Input style={{...regtext,marginTop:"20px"}} placeholder="Full Name" required />
                         </Form.Item>
-                        <Form.Item name='email' rules={[{type: "email", message: "Please enter a valid email"}]}>
-                            <Input style={{...regtext}} placeholder='Enter Email' required />
+                        <Form.Item name='email' style={{textAlign:"center"}} rules={[{type: "email", message: "Please enter a valid email"}]}>
+                            <Input style={{...regtext,marginRight:"70px"}} placeholder='Enter Email' required />
                         </Form.Item>
                         <Form.Item
                             name='phone'>
