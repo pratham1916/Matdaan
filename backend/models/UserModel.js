@@ -13,6 +13,7 @@ const UserSchema = new mongoose.Schema({
     state: {type: String},
     city: {type: String}, 
     isAdmin: {type: Boolean},
+    isVoteStart: {type: Boolean, default: false},
     status: {type: String},
 });
 

@@ -4,6 +4,7 @@ const cors = require("cors");
 
 const UserRoute= require('./routes/UserRoutes');
 const CandidateRoute= require('./routes/CandidateRoutes');
+const VoteRoute = require('./routes/VoteRoute')
 
 require("dotenv").config();
 
@@ -14,6 +15,7 @@ app.use(express.json());
 const connection = require('./config');
 app.use("/user",UserRoute);
 app.use("/candidate",CandidateRoute);
+app.use("/vote", VoteRoute);
 app.use('/uploads', express.static(path.join(__dirname, 'dist/uploads')))
 
 app.get("/",(req,res)=>{

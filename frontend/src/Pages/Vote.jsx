@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Row, Col, Typography, Card, Table} from "antd";
+import {Row, Col, Typography, Card, Table, message} from "antd";
 import axios from "axios";
 import { Button } from "antd/es/radio";
 import Heading from '../css/Heading.module.css'
@@ -7,6 +7,7 @@ import Heading from '../css/Heading.module.css'
 const Vote = () => {
     const [refreshing, setRefreshing] = useState(true)
     const [voters, setVoters] = useState([]);
+    const [isVoteStart, setIsVoteStart] = useState(false);
 
     const showTotal = (total, range) => <Typography.Text>{range[0]}-{range[1]} of {total} items</Typography.Text>
     const [pagination, setPagination] =  useState({
@@ -25,9 +26,13 @@ const Vote = () => {
             const res = await axios.get(url, {
                 headers: { filters: JSON.stringify({status: "Current"})}
             })
+             const user = await JSON.parse(localStorage.getItem("matdaan"));
+            const userRes = await axios.get(`http://localhost:8080/user/${user?._id}`)
+            const newUser = userRes.data.user;
+            setIsVoteStart(newUser.isVoteStart)
             setVoters(res.data.candidate)
         } catch {
-
+            message.error("Invalid Error");
         }
         setRefreshing(false)
     }
@@ -73,7 +78,8 @@ const Vote = () => {
     ]
 
     return (
-        <>
+        <div>
+            { isVoteStart ? 
         <section className={Heading.sec}>
             <div className={Heading.section_title}>
                 <h2>Vote</h2>
@@ -93,8 +99,10 @@ const Vote = () => {
                 scroll={{ y: "50vh"}}
             />
         </Card>
-        </section>
-        </>
+        </section> :
+        <h1>Vote not start yet...</h1>
+        }
+        </div>
     )
 }
 

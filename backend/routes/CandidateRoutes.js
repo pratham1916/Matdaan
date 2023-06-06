@@ -117,10 +117,24 @@ router.post("/add", multer({storage, fileFilter}).fields(fileFields), async (req
 });
 
 router.put('/:id', async (req,res) => {
+    const b = req.body;
     try{
-        const result = await CandidateModel.updateOne({_id: req.params.id},{$set: req.body})
-        if (upload.isUpdated(result)) {
-            return res.send({status: "success"});
+        if (b.status === "Current"){
+            const user = await CandidateModel.findOne({_id: req.params.id})
+            const current = await CandidateModel.find({party: user.party, position: user.position, status: "Current"})
+            if (current.length === 0 ){
+                const result = await CandidateModel.updateOne({_id: req.params.id},{$set: b})
+                if (upload.isUpdated(result)) {
+                    return res.send({status: "success"});
+                }
+            } else {
+                return res.send({status: 'error', message: "Person with same party and position already exixts"})
+            }
+        } else {
+            const result = await CandidateModel.updateOne({_id: req.params.id},{$set: b})
+            if (upload.isUpdated(result)) {
+                return res.send({status: "success"});
+            }
         }
         return res.send({status: "success", message: "no data to be changed"});
     } catch {

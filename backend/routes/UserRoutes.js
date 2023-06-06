@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const UserModel = require("../models/UserModel");
 const upload = require("../utils/upload");
 const router = express.Router();
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 router.get('/', async (req, res) => {
@@ -28,6 +29,18 @@ router.get('/', async (req, res) => {
         const user = await UserModel.paginate(quote, options);
         return res.send({status: "success", user: user.docs, count: user.totalDocs, pages: user.totalPages});
     } catch {
+        return res.send({status: "error", message: "Error fetching data"})
+    }
+})
+
+router.get("/:id", async (req,res) => {
+    try {
+        const user = await UserModel.findOne({_id: req.params.id});
+        if (user) {
+            return res.send({status: 'success', user: { isVoteStart: user.isVoteStart}});
+        }
+        
+    } catch (error) {
         return res.send({status: "error", message: "Error fetching data"})
     }
 })
@@ -83,9 +96,37 @@ router.post("/login", async (req, res) => {
 })
 
 router.put('/:id', async (req,res) => {
+    const b = req.body;
+    const id = req.params.id;
     try{
-        const result = await UserModel.updateOne({_id: req.params.id},{$set: req.body})
+        const result = await UserModel.updateOne({_id: id},{$set: b})
         if (upload.isUpdated(result)) {
+            if (b.status === "Verified") {
+                const from="pnemade1916@gmail.com";
+                const to = b.email
+                let transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                      user: from,
+                      pass: "gjsdktzserwulslu"
+                    }
+                  });
+                  
+                  let mailOptions = {
+                    from: from,
+                    to: to,
+                    subject: 'Election Commission Of India',
+                    text: `Your voter id is ${b.voterId}, Thank you!`
+                  };
+                  
+                  transporter.sendMail(mailOptions, function(error, info){
+                    if (error) {
+                      console.log(error);
+                    } else {
+                      console.log('Email sent: ' + info.response);
+                    }
+                  });
+            }
             return res.send({status: "success"});
         }
         return res.send({status: "success", message: "no data to be changed"});

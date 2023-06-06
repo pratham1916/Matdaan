@@ -52,7 +52,7 @@ const CandidateList = () => {
                 onOk: async () => {
                   const res = await axios.put(`http://localhost:8080/candidate/${id}`, {status: status});
                   if (res.data.status === "error") {
-                    message.error("Invalid Error")
+                    message.error(res.data.message)
                   } else {
                     onLoad();
                   }
@@ -88,14 +88,14 @@ const CandidateList = () => {
                 <span>{email}</span>
             )
         },
-        // {
-        //     title: "D.O.B.",
-        //     dataIndex: "dob",
-        //     render: (dob) => (
-        //         <span>{format(new Date(dob), 'dd MMM yyy')}</span>
-        //     ),
-        //     width: 100
-        // },
+        {
+            title: "D.O.B.",
+            dataIndex: "dob",
+            render: (dob) => (
+                <span>{format(new Date(dob), 'dd MMM yyy')}</span>
+            ),
+            width: 100
+        },
         {
             title: "Gender",
             dataIndex: "gender",

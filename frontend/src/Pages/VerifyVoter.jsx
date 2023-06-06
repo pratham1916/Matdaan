@@ -44,13 +44,13 @@ const VerifyVoter = () => {
         setRefreshing(false)
     }
 
-   const onChangeStatus = async (id, status) => {
+   const onChangeStatus = async (id, status, voterId,email) => {
     try {
         confirm({
             title: `Do you Want to ${status === "Verified" ? "Verify" : "Un-Verify"} this Voter?`,
             icon: <ExclamationCircleFilled />,
             onOk: async () => {
-              const res = await axios.put(`http://localhost:8080/user/${id}`, {status: status});
+              const res = await axios.put(`http://localhost:8080/user/${id}`, {status: status, voterId: voterId,email: email});
               if (res.data.status === "error") {
                 message.error("Invalid Error")
               } else {
@@ -112,7 +112,7 @@ const VerifyVoter = () => {
             title: "age",
             dataIndex: "dob",
             render: (dob) => (
-                <span>{new Date() - new Date(dob)}</span>
+                <span>{new Date().getFullYear() - new Date(dob).getFullYear()}</span>
             )
         },
         {
@@ -132,11 +132,15 @@ const VerifyVoter = () => {
         {
             title: statuss === "All" ? "Status" : "Action",
             dataIndex: "status",
-            render: (_,{status, _id}) => (
+            render: (_,{status, _id, voterId, isAdmin,email}) => (
                 <>
-                {statuss === "Not Verified" && <Button type="primary" style={{backgroundColor: "green", color: "white"}} onClick={() => onChangeStatus(_id, "Verified")}>Verify</Button>}
-                {statuss === "Verified" && <Button type="default" style={{backgroundColor: "red", color: "white"}} onClick={() => onChangeStatus(_id, "Not Verified")}>Un-Verify</Button>}
+                {isAdmin ? <Tag>Admin</Tag> :
+                <>
+                {statuss === "Not Verified" && <Button type="primary" style={{backgroundColor: "green", color: "white"}} onClick={() => onChangeStatus(_id, "Verified", voterId,email)}>Verify</Button>}
+                {statuss === "Verified" && <Button type="default" style={{backgroundColor: "red", color: "white"}} onClick={() => onChangeStatus(_id, "Not Verified", voterId,email)}>Un-Verify</Button>}
                 {statuss === "All" &&  <Tag color={status === "Not Verified" ? "red" : "green"}>{status}</Tag>}
+                </>
+        }
                 </>
             )
         },
