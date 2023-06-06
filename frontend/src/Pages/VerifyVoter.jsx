@@ -156,8 +156,8 @@ const VerifyVoter = () => {
 
             <section className={Heading.sec}>
                 <div className={Heading.section_title}>
-                    <h2>Admin</h2>
-                    <p>About</p>
+                    <h2>Verify Voter</h2>
+                    <p>Authenticate Voters </p>
                 </div>
                 <div>
                 <Radio.Group style={{margin:"0 0 30px 0"}} value={statuss} onChange={e => setStatus(e.target.value)} buttonStyle="solid" size="small">

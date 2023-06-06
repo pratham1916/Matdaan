@@ -104,8 +104,8 @@ const AddCandidate = () => {
         <>
         <section className={Heading.sec}>
             <div className={Heading.section_title}>
-                <h2>hhh</h2>
-                <p>Add Candidate</p>
+                <h2>Add Candidate</h2>
+                <p>Add Election Nominee</p>
             </div>
             <div style={{display: "flex", justifyContent: "space-between"}}>
 				<div style={image}></div>

@@ -15,6 +15,7 @@
     text-transform: uppercase;
     color: #aaaaaa;
     font-family: "Poppins", sans-serif;
+    margin-top: 10px;
 }
 .section_title h2::after {
     content: "";

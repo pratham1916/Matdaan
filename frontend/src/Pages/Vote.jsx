@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import {Row, Col, Typography, Card, Table} from "antd";
 import axios from "axios";
 import { Button } from "antd/es/radio";
+import Heading from '../css/Heading.module.css'
 
 const Vote = () => {
     const [refreshing, setRefreshing] = useState(true)
@@ -73,6 +74,11 @@ const Vote = () => {
 
     return (
         <>
+        <section className={Heading.sec}>
+            <div className={Heading.section_title}>
+                <h2>Vote</h2>
+                <p>Cast Your VoteVote</p>
+            </div>
         
         <Card
             bodyStyle={{padding: 0}}
@@ -87,6 +93,7 @@ const Vote = () => {
                 scroll={{ y: "50vh"}}
             />
         </Card>
+        </section>
         </>
     )
 }
