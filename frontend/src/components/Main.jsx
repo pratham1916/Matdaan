@@ -18,9 +18,9 @@ const Main = () => {
     return (
         <>
         <Navbar setPage={setPage} page={page} />
-        <div className={styles.bodyx} style={{width: "99.9%", height: "450px", border:"1px solid white"}}>
-            <h1 style={{padding:"100px 0 0 490px ",fontSize:"40px"}}>Welcome to Voting Portal</h1>
-            <p style={{margin:"30px 300px 0 370px",fontWeight:"600",textAlign:"justify"}}>Your voices are being heard and you are proving to our ancestors that their struggles were not in vain. Now we have one more thing we need to do to walk in our true power, and that is to vote.</p>
+        <div className={styles.bodyx} style={{width: "100%", height: "450px"}}>
+            <h1 style={{padding:"160px 0 0 455px ",fontSize:"40px",fontWeight:"700"}}>Welcome to Voting Portal</h1>
+            <p style={{margin:"30px 300px 0 330px",fontWeight:"600",textAlign:"center"}}>Your voices are being heard and you are proving to our ancestors that their struggles were not in vain. Now we have one more thing we need to do to walk in our true power, and that is to vote.</p>
         </div>
         {page === "Home" && <Home/> }
         {page === "About" && <About/> }

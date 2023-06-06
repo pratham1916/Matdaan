@@ -6,8 +6,10 @@ import Heading from '../css/Heading.module.css'
 
 const Vote = () => {
     const [refreshing, setRefreshing] = useState(true)
-    const [voters, setVoters] = useState([]);
+    const [voters, setVoters] = useState({});
     const [isVoteStart, setIsVoteStart] = useState(false);
+    const [voteId, setVoteId] = useState('');
+    const [isVote, setIsVote] = useState(false);
 
     const showTotal = (total, range) => <Typography.Text>{range[0]}-{range[1]} of {total} items</Typography.Text>
     const [pagination, setPagination] =  useState({
@@ -22,17 +24,41 @@ const Vote = () => {
     const onLoad = async () => {
         setRefreshing(true)
         try{
-            let url = `http://localhost:8080/candidate?page=${pagination.current}&limit=${pagination.pageSize}`
-            const res = await axios.get(url, {
-                headers: { filters: JSON.stringify({status: "Current"})}
-            })
+            const isVote =  JSON.parse(localStorage.getItem("isVote"));
+            setIsVote(isVote)
              const user = await JSON.parse(localStorage.getItem("matdaan"));
             const userRes = await axios.get(`http://localhost:8080/user/${user?._id}`)
             const newUser = userRes.data.user;
+            if (!newUser.isVoteStart) {
+                localStorage.removeItem("isVote")
+            }
             setIsVoteStart(newUser.isVoteStart)
-            setVoters(res.data.candidate)
         } catch {
             message.error("Invalid Error");
+        }
+        setRefreshing(false)
+    }
+
+    const onLoadVoters = async () => {
+        setRefreshing(true)
+        try{
+            const vote = await axios.get(`http://localhost:8080/vote/start`)
+            if (vote.data.status === 'error') {
+                message.error(vote.data.message)
+                return setRefreshing(false)
+            }
+            const dataArray = [];
+            const originalData = vote.data.vote[0]
+            const { _id, candidates } = originalData;
+                for (const key in candidates) {
+                    dataArray.push({ ...candidates[key], id: key });
+                }
+            
+            const newData = { _id, candidates: dataArray };
+            setVoteId(newData._id)
+            setVoters(newData.candidates)
+        } catch {
+            //message.error("Invalid Error");
         }
         setRefreshing(false)
     }
@@ -40,6 +66,20 @@ const Vote = () => {
     useEffect(() => {
         onLoad()
     },[])
+
+    useEffect(() => {
+        onLoadVoters()
+    },[isVoteStart])
+
+    const onAddVote = async (id) => {
+        localStorage.setItem("isVote", JSON.stringify(true))
+        const res= await axios.put(`http://localhost:8080/vote/${voteId}`, {candidateId: id});
+        if (res.data.status === 'success') {
+            message.success(res.data.message)
+        }
+        onLoad()
+        onLoadVoters()
+    }
 
 
     const tableColumns = [
@@ -68,10 +108,18 @@ const Vote = () => {
             width: 200
         },
         {
+            title: "Position",
+            dataIndex: "position",
+            render: (position) => (
+                <span>{position}</span>
+            ),
+            width: 200
+        },
+        {
             title: "Vote",
-            dataIndex: "party",
-            render: (party) => (
-                <Button>{"vote"}</Button>
+            dataIndex: "id",
+            render: (id) => (
+                <Button disabled={isVote} onClick={() => onAddVote(id)}>{"vote"}</Button>
             ),
             width: 200
         },
@@ -100,10 +148,10 @@ const Vote = () => {
             />
         </Card>
         </section> :
-        <h1>Vote not start yet...</h1>
+        <h1 style={{textAlign:"center", margin:"50px",color:"#ef6603",fontWeight:"700"}}>Election is Yet to Start !</h1>
         }
         </div>
     )
 }
 
-export default Vote;
+export default Vote

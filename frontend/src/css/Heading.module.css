@@ -6,7 +6,7 @@
     padding-bottom: 40px;
 }
 .section_title h2 {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
     padding: 0;
     line-height: 1px;
@@ -20,7 +20,7 @@
 .section_title h2::after {
     content: "";
     width: 120px;
-    height: 1px;
+    height: 1.5px;
     display: inline-block;
     background: #fd9042;
     margin: 4px 10px;
@@ -28,9 +28,9 @@
 .section_title p {
     margin: 0;
     margin: 0;
-    font-size: 36px;
+    font-size: 30px;
     font-weight: 700;
     text-transform: uppercase;
     font-family: "Poppins", sans-serif;
-    color: #2a2c39;
+    color: #2d2f3d;
 }

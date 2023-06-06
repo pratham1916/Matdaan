@@ -109,7 +109,7 @@ const AddCandidate = () => {
             </div>
             <div style={{display: "flex", justifyContent: "space-between"}}>
 				<div style={image}></div>
-                <div style={{width: "45%",backgroundColor:"#41424C",borderRadius:"20px"}}>
+                <div style={{width: "45%",backgroundColor:"#2d2f3d",borderRadius:"20px"}}>
 
                 <Form form={form} onFinish={onFinish}>
                         <div style={{display:"flex"}}>

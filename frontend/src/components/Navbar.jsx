@@ -5,7 +5,7 @@ import {useNavigate} from 'react-router-dom'
 
 
 const navbutton = {color:"Black",borderRadius:"20px",fontWeight:"600"}
-const active = {background: "red", color:"white", borderRadius:"20px",fontWeight:"600"};
+const active = {background: "#EF6603", color:"white", borderRadius:"20px",fontWeight:"600"};
 
 
 const Navbar = ({setPage, page}) => {

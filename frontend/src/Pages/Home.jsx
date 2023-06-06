@@ -3,6 +3,8 @@ import Heading from '../css/Heading.module.css'
 import '../css/Home.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import { FaGithub } from 'react-icons/fa';
+import { FaLinkedin } from 'react-icons/fa';
 
 const Home = () => {
     return (
@@ -125,10 +127,9 @@ const Home = () => {
                             <div class="member-img">
                             <img src={require('../img/Pratham.jpeg')} class="img-fluid" alt=""/>
                             <div class="social">
-                                <a href=""><i class="bi bi-twitter"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
+                                <a href="#"><FaLinkedin style={{fontSize:"23px",color:"white"}}/></a>
+                                <a href="#"><FaGithub style={{fontSize:"23px",color:"white"}}/></a>
+                               
                             </div>
                             </div>
                             <div class="member-info">
@@ -143,10 +144,8 @@ const Home = () => {
                             <div class="member-img">
                             <img src={require('../img/Rohit.jpg')} class="img-fluid" alt=""/>
                             <div class="social">
-                                <a href=""><i class="bi bi-twitter"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
+                                <a href="#"><FaLinkedin style={{fontSize:"23px",color:"white"}}/></a>
+                                <a href="#"><FaGithub style={{fontSize:"23px",color:"white"}}/></a>
                             </div>
                             </div>
                             <div class="member-info">
@@ -161,10 +160,8 @@ const Home = () => {
                             <div class="member-img">
                             <img src={require('../img/Amit.jpg')} class="img-fluid" alt=""/>
                             <div class="social">
-                                <a href=""><i class="bi bi-twitter"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
+                                <a href="#"><FaLinkedin style={{fontSize:"23px",color:"white"}}/></a>
+                                <a href="#"><FaGithub style={{fontSize:"23px",color:"white"}}/></a>
                             </div>
                             </div>
                             <div class="member-info">
@@ -179,10 +176,8 @@ const Home = () => {
                             <div class="member-img">
                             <img src={require('../img/Hitesh.jpg')} class="img-fluid" alt=""/>
                             <div class="social">
-                                <a href=""><i class="bi bi-twitter"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
+                                <a href="#"><FaLinkedin style={{fontSize:"23px",color:"white"}}/></a>
+                                <a href="#"><FaGithub style={{fontSize:"23px",color:"white"}}/></a>
                             </div>
                             </div>
                             <div class="member-info">
@@ -197,10 +192,8 @@ const Home = () => {
                             <div class="member-img">
                             <img src={require('../img/atul.jpeg')} class="img-fluid" alt=""/>
                             <div class="social">
-                                <a href=""><i class="bi bi-twitter"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
+                                <a href="#"><FaLinkedin style={{fontSize:"23px",color:"white"}}/></a>
+                                <a href="#"><FaGithub style={{fontSize:"23px",color:"white"}}/></a>
                             </div>
                             </div>
                             <div class="member-info">
