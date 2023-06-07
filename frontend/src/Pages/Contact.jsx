@@ -23,7 +23,7 @@ const Contact = () => {
                     <FiMapPin style={{color:"white",padding:"5px",margin:"7px 10px 0 0 ",borderRadius:"50%", backgroundColor:"#ef6603",fontSize:"30px"}}/>
                     <h4 style={{color:"red",marginTop:"10px"}}>Location:</h4>
                   </div>
-                  <p>A108 Adam Street, New York, NY 535022</p>
+                  <p>Nirvachan Sadan, Ashoka Rd, Pandit Pant Marg Area, Sansad Marg Area, New Delhi, Delhi 110001</p>
                 </div>
 
                 <div>
@@ -31,7 +31,7 @@ const Contact = () => {
                     <MdEmail style={{color:"white",padding:"5px",margin:"7px 10px 0 0 ",borderRadius:"50%", backgroundColor:"#ef6603",fontSize:"30px"}}/>
                     <h4 style={{color:"red",marginTop:"10px"}}>Email:</h4>
                   </div>
-                  <p>A108 Adam Street, New York, NY 535022</p>
+                  <p>Matdaan01@gmail.com</p>
                 </div>
 
                 <div>
@@ -39,14 +39,14 @@ const Contact = () => {
                     <IoMdContact style={{color:"white",padding:"5px",margin:"7px 10px 0 0 ",borderRadius:"50%", backgroundColor:"#ef6603",fontSize:"30px"}}/>
                     <h4 style={{color:"red",marginTop:"10px"}}>Contact:</h4>
                   </div>
-                  <p>A108 Adam Street, New York, NY 535022</p>
+                  <p style={{fontSize:"17px"}}>9665920869</p>
                 </div>
               </div>
             </div>
 
 
             <div class="col-lg-8 mt-5 mt-lg-0" data-aos="fade-left">
-              <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+              <form >
                 <div class="row">
                   <div class="col-md-6 form-group">
                     <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required></input>
@@ -61,7 +61,7 @@ const Contact = () => {
                 <div class="form-group mt-3">
                   <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
                 </div>
-                <div class="text-center"><button style={{marginTop:"20px",padding:"8px 15px",backgroundColor:"#ef6603"}} className={styles.btn}>Send Message</button></div>
+                <div class="text-center"><button style={{marginTop:"20px",padding:"8px 15px",backgroundColor:"whitesmoke"}} className={styles.btn}>Send Message</button></div>
               </form>
 
             </div>

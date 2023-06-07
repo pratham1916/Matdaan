@@ -127,8 +127,8 @@ const Home = () => {
                             <div class="member-img">
                             <img src={require('../img/Pratham.jpeg')} class="img-fluid" alt=""/>
                             <div class="social">
-                                <a href="#"><FaLinkedin style={{fontSize:"23px",color:"white"}}/></a>
-                                <a href="#"><FaGithub style={{fontSize:"23px",color:"white"}}/></a>
+                                <a href="https://www.linkedin.com/in/pratham-nemade-56131a207/"><FaLinkedin style={{fontSize:"23px",color:"white"}}/></a>
+                                <a href="https://github.com/pratham1916"><FaGithub style={{fontSize:"23px",color:"white"}}/></a>
                                
                             </div>
                             </div>
@@ -144,8 +144,8 @@ const Home = () => {
                             <div class="member-img">
                             <img src={require('../img/Rohit.jpg')} class="img-fluid" alt=""/>
                             <div class="social">
-                                <a href="#"><FaLinkedin style={{fontSize:"23px",color:"white"}}/></a>
-                                <a href="#"><FaGithub style={{fontSize:"23px",color:"white"}}/></a>
+                                <a href="https://www.linkedin.com/mwlite/in/rohit-diwate-659476225"><FaLinkedin style={{fontSize:"23px",color:"white"}}/></a>
+                                <a href="https://github.com/Rohitdi08"><FaGithub style={{fontSize:"23px",color:"white"}}/></a>
                             </div>
                             </div>
                             <div class="member-info">
@@ -160,8 +160,8 @@ const Home = () => {
                             <div class="member-img">
                             <img src={require('../img/Amit.jpg')} class="img-fluid" alt=""/>
                             <div class="social">
-                                <a href="#"><FaLinkedin style={{fontSize:"23px",color:"white"}}/></a>
-                                <a href="#"><FaGithub style={{fontSize:"23px",color:"white"}}/></a>
+                                <a href="https://www.linkedin.com/in/amitpandey2001"><FaLinkedin style={{fontSize:"23px",color:"white"}}/></a>
+                                <a href="https://www.github.com/Amitpandey2001"><FaGithub style={{fontSize:"23px",color:"white"}}/></a>
                             </div>
                             </div>
                             <div class="member-info">
@@ -176,8 +176,8 @@ const Home = () => {
                             <div class="member-img">
                             <img src={require('../img/Hitesh.jpg')} class="img-fluid" alt=""/>
                             <div class="social">
-                                <a href="#"><FaLinkedin style={{fontSize:"23px",color:"white"}}/></a>
-                                <a href="#"><FaGithub style={{fontSize:"23px",color:"white"}}/></a>
+                                <a href="https://www.linkedin.com/in/hitesh-kadukar-993253220/"><FaLinkedin style={{fontSize:"23px",color:"white"}}/></a>
+                                <a href="https://github.com/Hitesh2751"><FaGithub style={{fontSize:"23px",color:"white"}}/></a>
                             </div>
                             </div>
                             <div class="member-info">
@@ -192,8 +192,8 @@ const Home = () => {
                             <div class="member-img">
                             <img src={require('../img/atul.jpeg')} class="img-fluid" alt=""/>
                             <div class="social">
-                                <a href="#"><FaLinkedin style={{fontSize:"23px",color:"white"}}/></a>
-                                <a href="#"><FaGithub style={{fontSize:"23px",color:"white"}}/></a>
+                                <a href="https://www.linkedin.com/in/atul-a-gupta"><FaLinkedin style={{fontSize:"23px",color:"white"}}/></a>
+                                <a href="https://github.com/atulgupta05"><FaGithub style={{fontSize:"23px",color:"white"}}/></a>
                             </div>
                             </div>
                             <div class="member-info">
