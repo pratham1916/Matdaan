@@ -156,7 +156,7 @@ const Landing = () => {
                             <Input style={{margin:"20px 0 0 65px", width: "300px",borderRadius:"10px",height:"35px"}} placeholder='Enter 10 digit voter Id' required />
                         </Form.Item>
                         <Form.Item name='password'>
-                            <Input style={{margin:"0 0 0 65px", width: "300px",borderRadius:"10px",height:"35px"}} placeholder='Enter password' required />
+                            <Input.Password style={{margin:"0 0 0 65px", width: "300px",borderRadius:"10px",height:"35px"}} placeholder='Enter password' required />
                         </Form.Item>
                         <Form.Item>
                             <button style={{fontSize:"11px",marginLeft:"170px"}} className={styles.btn} htmlType='submit' loading={loading}>Login</button>
@@ -215,7 +215,7 @@ const Landing = () => {
                             <DatePicker style={{...regtext}}  format='DD/MM/YYYY' placeholder='Date OF Birth' />
                         </Form.Item>
                         <Form.Item name="password">
-                            <Input style={{...regtext}} placeholder='Password' onChange={(e)=>setPassword(e.target.value)}/>
+                            <Input.Password style={{...regtext}} placeholder='Password' onChange={(e)=>setPassword(e.target.value)}/>
                         </Form.Item>
                         <Form.Item>
                             <button style={{fontSize:"11px",marginLeft:"170px"}} className={styles.btn} htmlType='submit' >Register</button>
@@ -223,7 +223,6 @@ const Landing = () => {
                     </Form>
                 </section>
                 }
-
             </div>
         </div>
     )

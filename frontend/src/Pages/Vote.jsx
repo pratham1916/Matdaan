@@ -7,9 +7,9 @@ import Heading from '../css/Heading.module.css'
 const Vote = () => {
     const [refreshing, setRefreshing] = useState(true)
     const [voters, setVoters] = useState({});
-    const [isVoteStart, setIsVoteStart] = useState(false);
+    const [isVoteStart, setIsVoteStart] = useState();
     const [voteId, setVoteId] = useState('');
-    const [isVote, setIsVote] = useState(false);
+    const [isVote, setIsVote] = useState();
 
     const showTotal = (total, range) => <Typography.Text>{range[0]}-{range[1]} of {total} items</Typography.Text>
     const [pagination, setPagination] =  useState({
@@ -131,7 +131,7 @@ const Vote = () => {
         <section className={Heading.sec}>
             <div className={Heading.section_title}>
                 <h2>Vote</h2>
-                <p>Cast Your VoteVote</p>
+                <p>Cast Your Vote</p>
             </div>
         
         <Card

@@ -67,7 +67,7 @@ router.post("/signup", async (req,res) => {
                     name, email, password: hash, dob, gender, phone, state, city, voterId: vId , isAdmin: false, status: "Not Verified"
                 });
                 await user.save();
-                return res.send({status: "success", user})
+                return res.send({status: "success",messaage:"Registration Susscessfull" ,user})
         })
     } catch {
         return res.send({status: "error", message: "Signup failed"})
