@@ -1,0 +1,195 @@
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 8%;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 2;
+    transition: 0.5s;
+    background-color: black;
+}
+
+.header.sticky {
+    background: var(--white-color);
+    box-shadow: 0.1rem 0.1rem var(--shadow-color);
+}
+
+.logo {
+    font-size: 25px;
+    color: var(--white-color);
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.navbar {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--black-color);
+}
+
+.navbar a {
+    font-size: 13px;
+    color: var(--white-color);
+    padding: 0;
+    position: relative;
+}
+
+.navbar a.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    background: var(--main-color);
+}
+
+.login-register {
+    display: flex;
+    gap: 5px;
+}
+
+.login-register .login {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--black-color);
+    border-radius: 10px;
+    padding: 5px 10px;
+    background-color: var(--main-color);
+}
+
+.login-register-in {
+    display: none;
+
+}
+
+.login-register-in a {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--black-color);
+    border-radius: 10px;
+    padding: 5px 10px;
+    background-color: var(--main-color);
+}
+
+.login-register-in a:hover {
+    background: var(--black-color);
+}
+
+#menu-icon {
+    font-size: 3rem;
+    color: var(--main-color);
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .logo {
+        font-size: 2rem;
+    }
+
+    .navbar a {
+        font-size: 1.2rem;
+        color: black;
+        font-weight: 600;
+    }
+
+    .login-register a {
+        width: 2.8rem;
+        height: 2.8rem;
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    #menu-icon {
+        display: block;
+    }
+
+    #nav-menu {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .navbar {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 65px;
+        width: 100%;
+        left: 0;
+        background-color: var(--white-color);
+        border-radius: 10px;
+        padding: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        color: black;
+        gap: 15px;
+    }
+
+    .navbar a.active::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -4px;
+        width: 10%;
+        height: 0.2rem;
+        background: var(--main-color);
+    }
+
+    .navbar a {
+        font-size: 1.2rem;
+        color: white;
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 5px;
+    }
+
+    .navbar a.active {
+        background-color: #ffe28a;
+        border: 0;
+        border-radius: 10px;
+        color: black;
+    }
+
+    .navbar a::before {
+        display: none;
+    }
+
+    .navbar.showMenu {
+        display: flex;
+    }
+
+    .login-register.showMenu {
+        display: none;
+    }
+
+    .login-register {
+        display: none;
+    }
+
+    .login-register-in {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+
+}
+
+@media (max-width: 1200px) {
+    .header {
+        padding: 1.5rem 5%;
+        background-color: black;
+    }
+
+    .logo,
+    .login-register {
+        margin: 0;
+    }
+}
