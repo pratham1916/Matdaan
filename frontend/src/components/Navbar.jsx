@@ -6,34 +6,23 @@ const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const { pathname } = useLocation();
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        setIsLoggedIn(!!token);
-    }, [pathname]);
 
     const toggleMenu = () => setIsOpen(!isOpen);
     const closeMenu = () => setIsOpen(false);
 
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('userId');
-        setIsLoggedIn(false);
-        closeMenu();
-        navigate('/');
-    };
 
     return (
-        <header className={`header ${isOpen ? "open" : ""}`} id='nav-menu'>
-            <Link to="/" className="logo">Geo<span> Data</span></Link>
+        <header className="header" id='nav-menu'>
+            <Link to="/" className="logo">मतदान<span> !</span></Link>
             <nav className={`navbar ${isOpen ? "showMenu" : ""}`}>
                 <Link to="/" className={`nav-link ${pathname === '/' ? 'active' : ''}`} onClick={closeMenu}>Home</Link>
-                <Link to="/mapView" className={`nav-link ${pathname === '/mapView' ? 'active' : ''}`} onClick={closeMenu}>Map View</Link>
-                <Link to="/upload" className={`nav-link ${pathname === '/upload' ? 'active' : ''}`} onClick={closeMenu}>Upload</Link>
+                <Link to="/about" className={`nav-link ${pathname === '/about' ? 'active' : ''}`} onClick={closeMenu}>About</Link>
+                <Link to="/vote" className={`nav-link ${pathname === '/vote' ? 'active' : ''}`} onClick={closeMenu}>Vote</Link>
+                <Link to="/result" className={`nav-link ${pathname === '/result' ? 'active' : ''}`} onClick={closeMenu}>Result</Link>
+                <Link to="/contact" className={`nav-link ${pathname === '/contact' ? 'active' : ''}`} onClick={closeMenu}>Contact</Link>
 
                 {isLoggedIn ? (
-                    <div className="login-register-in" onClick={handleLogout}>
+                    <div className="login-register-in">
                         <Link className="nav-link login">Logout</Link>
                     </div>
                 ) : (
@@ -43,7 +32,7 @@ const Navbar = () => {
                 )}
             </nav>
             {isLoggedIn ? (
-                <div className="login-register" onClick={handleLogout}>
+                <div className="login-register" >
                     <Link className="nav-link login">Logout</Link>
                 </div>
             ) : (
