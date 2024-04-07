@@ -1,8 +1,41 @@
-import React from 'react'
+import React, { useContext, useState } from 'react';
 import { Button, Stack, TextField, Typography, colors } from '@mui/material';
 import { ScreenMode } from '../pages/SignInPage';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../Context/AuthContexProvider';
+import Alert from '@mui/material/Alert';
+
 
 const SignInForm = ({ onSwitchMode }) => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const { setAuth } = useContext(AuthContext);
+    const navigate = useNavigate()
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        if (email && password) {
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const token = await response.json();
+                if (token) {
+                    navigate('/');
+                    setAuth({ isAuth: true, token: token });
+                }
+            } catch (err) {
+                alert('Login failed. Please try again.');
+            }
+        } else {
+            alert('Please fill all the fields.');
+            // <Alert variant="filled" severity="warning">
+            //     This is a filled warning Alert.
+            // </Alert>
+        }
+    };
     return (
         <Stack
             justifyContent="center"
@@ -29,11 +62,11 @@ const SignInForm = ({ onSwitchMode }) => {
                     <Stack spacing={2}>
                         <Stack spacing={1}>
                             <Typography color={colors.grey[800]}>Email</Typography>
-                            <TextField />
+                            <TextField onChange={(e) => setEmail(e.target.value)} />
                         </Stack>
                         <Stack spacing={1}>
                             <Typography color={colors.grey[800]}>Password</Typography>
-                            <TextField type='password' />
+                            <TextField type='password' onChange={(e) => setPassword(e.target.value)} />
                         </Stack>
                     </Stack>
                     <Button
@@ -45,6 +78,7 @@ const SignInForm = ({ onSwitchMode }) => {
                                 bgcolor: colors.grey[600]
                             }
                         }}
+                        onClick={handleLogin}
                     >
                         Sign in
                     </Button>

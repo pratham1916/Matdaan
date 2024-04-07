@@ -37,7 +37,7 @@ const Navbar = () => {
                 </div>
             ) : (
                 <div className="login-register">
-                    <Link to="/login" className="nav-link login" onClick={closeMenu}>Login</Link>
+                    <Link to="/SignIn" className="nav-link login" onClick={closeMenu}>Login</Link>
                 </div>
             )}
             <i className='bx bx-menu' id="menu-icon" onClick={toggleMenu}></i>
