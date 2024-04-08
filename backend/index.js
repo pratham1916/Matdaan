@@ -8,14 +8,14 @@ const app = express();
 app.use(cors())
 app.use(express.json());
 
-app.use("/",userRouter)
+app.use("/", userRouter)
 
 
-app.listen(process.env.PORT, async() => {
+app.listen(8080, async() => {
     try {
         await connection;
         console.log("DB Connected")
-        console.log(`Server is Running at port ${process.env.PORT}`)
+        console.log(`Server is Running at port 8080`)
     } catch (err) {
         console.log(err)
     }
