@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 
 const UserSchema = new mongoose.Schema({
-    name: {type: String, required: true},
+    fullname: {type: String, required: true},
     email: {type: String, required: true},
     phone: {type: String,required: true},
     gender: {type: String, required: true},
@@ -12,7 +12,7 @@ const UserSchema = new mongoose.Schema({
     password: {type: String,  required: true,select: false},
     role: {type: String, enum:["admin","user"], default:"user"},
     // isVoteStart: {type: Boolean, default: false},
-    status: {type: String}
+    status: {type: String,default:"Not Verified"}
 },{versionKey:false});
 
 const UserModel = mongoose.model("user",UserSchema)

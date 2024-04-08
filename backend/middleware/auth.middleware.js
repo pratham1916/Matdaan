@@ -1,25 +1,29 @@
-const jwt = require("jsonwebtoken");
-const { UserModel } = require("../model/user.model");
+const jwt  = require("jsonwebtoken");
+const UserModel = require("../model/UserModel");
 
-const auth = async(req, res, next) => {
-    const token = req.headers.authorization;
-    if (token) {
-        jwt.verify(token, "masai", (err, decoded) => {
-            if (err) {
-                console.log(err)
-                return res.status(401).json({ error: 'Unauthorized' });
-            } else {
-                req.body.userID = decoded.userID
-                req.role = decoded.role
-                next()
+
+const auth = (req, res, next) => {
+    const token = req.headers.authorization
+    if(token){
+        jwt.verify(token,"masai",async(err,decode)=>{
+            if(decode){
+                const{ userID } = decode;
+                const user = await UserModel.findOne({_id : userID});
+                const requiredRole = user.role;
+                req.role = requiredRole
+                req.body.userID = decode.userID
+                req.body.username = decode.username
+                next();
             }
-
+            else{
+                return res.status(401).json({message:"UnAuthorised"});
+            }
         })
-    } else {
-        res.json("Please Login!!")
+    }
+    else{
+        res.json({ msg: "Please Login" })
     }
 }
-
 
 module.exports = {
     auth

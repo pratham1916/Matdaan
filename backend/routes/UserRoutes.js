@@ -1,160 +1,66 @@
-const express = require("express");
+const express = require('express');
+const userRouter = express.Router();
 const bcrypt = require("bcrypt");
-const UserModel = require("../model/UserModel");
-// const upload = require("../utils/upload");
-const router = express.Router();
-const nodemailer = require('nodemailer');
-require('dotenv').config();
+const jwt = require("jsonwebtoken");
+const UserModel = require('../model/UserModel');
 
-router.get('/', async(req, res) => {
-    const query = req.query;
+userRouter.post("/register", async (req, res) => {
+    const { fullname, email, phone, gender, dob, state, city, password } = req.body;
     try {
-        const filters = JSON.parse(req.get('filters') || '{}');
-        const quote = {};
-        const options = {};
-        if (query) {
-            if (query.page) options.page = Number(query.page);
-            else options.page = 1;
-
-            if (query.limit) options.limit = Number(query.limit);
-        };
-        if (filters) {
-            const fil = filters.status;
-            if (fil === "Verified") {
-                quote.status = fil;
-            } else if (fil === "Not Verified") {
-                quote.status = fil;
-            };
-        };
-        const user = await UserModel.paginate(quote, options);
-        return res.send({ status: "success", user: user.docs, count: user.totalDocs, pages: user.totalPages });
-    } catch {
-        return res.send({ status: "error", message: "Error fetching data" })
-    }
-})
-
-router.get("/:id", async(req, res) => {
-    try {
-        const user = await UserModel.findOne({ _id: req.params.id });
-        if (user) {
-            return res.send({ status: 'success', user: { isVoteStart: user.isVoteStart } });
-        }
-
-    } catch (error) {
-        return res.send({ status: "error", message: "Error fetching data" })
-    }
-})
-
-router.post("/signup", async(req, res) => {
-    const { name, email, password, dob, gender, phone, state, city } = req.body;
-    try {
-        const oldName = await UserModel.find({ name: name });
+        const oldName = await UserModel.find({ fullname: fullname });
         const oldEmail = await UserModel.find({ email: email });
 
-        if (name && oldName.length > 0) {
+        if (fullname && oldName.length > 0) {
             return res.send({ message: "Name has already Exists", status: "error" });
         };
         if (email && oldEmail.length > 0) {
             return res.send({ message: "Email has already Exists", status: "error" });
         };
-        const salt = await bcrypt.genSalt(10);
-        bcrypt.hash(password, salt, async(err, hash) => {
+
+        bcrypt.hash(password, 5, async (err, hash) => {
             if (err) {
-                return res.send({ messaage: "Invalid Password", status: "error" })
+                return res.status(400).json({ message: "Invalid Password", err });
             }
             const vId = (Math.floor(Math.random() * 1000000000) + 1000).toString();
             const user = new UserModel({
-                name,
-                email,
-                password: hash,
-                dob,
-                gender,
-                phone,
-                state,
-                city,
-                voterId: vId,
-                isAdmin: false,
-                status: "Not Verified"
+                fullname, email, phone, gender, dob, voterId: vId, state, city, password: hash
             });
             await user.save();
             return res.send({ status: "success", messaage: "Registration Susscessfull", user })
         })
-    } catch {
-        return res.send({ status: "error", message: "Signup failed" })
     }
-});
-
-router.post("/login", async(req, res) => {
-    const { voterId, password } = req.body;
-    try {
-        const st = await UserModel.findOne({ voterId }).select('+password');
-        if (!st) {
-            return res.send({ message: "Voter Id not exists", status: 'error' });
-        } else if (st.status === "Not Verified") {
-            return res.send({ message: "Yo   u are not Verified User", status: 'error' })
-        }
-        bcrypt.compare(password, st.password, (err, result) => {
-            if (err) {
-                return res.send({ message: "Incorrect Password", status: 'error' })
-            } else if (result) {
-                return res.send({ message: "Login Successfull", status: 'success', user: { _id: st._id, voterId: st.voterId, isAdmin: st.isAdmin, status: st.status } });
-            }
-        })
-    } catch {
-        return res.send({ status: "error", message: "Login failed" })
+    catch (error) {
+        res.status(400).json({ message: "Registration Failed" });
     }
 })
 
-router.put('/:id', async(req, res) => {
-    const b = req.body;
-    const id = req.params.id;
+userRouter.post("/login", async (req, res) => {
+    const { voterId, password } = req.body
     try {
-        const result = await UserModel.updateOne({ _id: id }, { $set: b })
-        if (upload.isUpdated(result)) {
-            if (b.status === "Verified") {
-                const from = "pnemade1916@gmail.com";
-                const to = b.email
-                let transporter = nodemailer.createTransport({
-                    service: 'gmail',
-                    auth: {
-                        user: from,
-                        pass: "gjsdktzserwulslu"
-                    }
-                });
-
-                let mailOptions = {
-                    from: from,
-                    to: to,
-                    subject: 'Election Commission Of India',
-                    text: `Your voter id is ${b.voterId}, Thank you!`
-                };
-
-                transporter.sendMail(mailOptions, function(error, info) {
-                    if (error) {
-                        console.log(error);
+        const user = await UserModel.findOne({ voterId }).select('+password');
+        if (user) {
+            if (user.status === "Not Verified") {
+                return res.send({ message: "You are not Verified User", status: 'error' })
+            }   
+            else {
+                bcrypt.compare(password, user.password, (err, result) => {
+                    if (result) {
+                        const token = jwt.sign({ userID: user._id, fullname: user.fullname }, "masai")
+                        res.status(200).json({ msg: "Login Successfull", token })
                     } else {
-                        console.log('Email sent: ' + info.response);
+                        res.status(400).json({ message: "Try Again After Sometime" });
                     }
-                });
+                })
             }
-            return res.send({ status: "success" });
         }
-        return res.send({ status: "success", message: "no data to be changed" });
-    } catch {
-        return res.send({ status: "error", message: "Error updating data" })
+        else {
+            res.status(400).json({ message: "Voter Id not exists", status: 'error' });
+        }
+    } catch (error) {
+        res.status(400).json({ message: error });
     }
 })
 
-router.delete('/:id', async(req, res) => {
-    try {
-        const result = await UserModel.deleteOne({ _id: req.params.id })
-        if (upload.isDeleted(result)) {
-            return res.send({ status: "success" });
-        }
-        return res.send({ status: 'error' })
-    } catch {
-        return res.send({ status: "error", message: "Error deleting data" })
-    }
-})
-
-module.exports = router;
+module.exports = {
+    userRouter
+}
