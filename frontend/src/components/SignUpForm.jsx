@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Input, Radio, Select, DatePicker, Alert, message } from 'antd'
 import { State, City } from 'country-state-city'
-import { keyBy } from 'lodash'
+import { keyBy, values } from 'lodash'
 import { ScreenMode } from '../pages/SignInPage'
 import axios from 'axios'
 import { Link } from 'react-router-dom';
@@ -19,7 +19,7 @@ const SignUpForm = ({ onSwitchMode }) => {
 
     useEffect(() => {
         const sts = State.getStatesOfCountry("IN")
-        console.log(sts);
+        // console.log(sts);
         setStateById(keyBy(sts, "name"))
         setAllStates(sts)
     }, [])
@@ -71,6 +71,16 @@ const SignUpForm = ({ onSwitchMode }) => {
         textAlign: "center"
     }
 
+    const onFinish = async (values) => {
+        try {
+            const response = await axios.post('http://localhost:8080/register', values);
+            console.log(response.data);
+        } catch (error) {
+            console.error('Error registering user:', error);
+        }
+    };
+
+
     return (
         <div style={containerStyle}>
             <section style={formStyle}>
@@ -80,7 +90,7 @@ const SignUpForm = ({ onSwitchMode }) => {
                 <p style={{ textAlign: 'center', marginBottom: "20px", color: "#666666" }}>
                     Please provide your valid information to create an account.
                 </p>
-                <Form form={form}>
+                <Form form={form} onFinish={onFinish}>
                     <Form.Item name='name'>
                         <Input style={{ ...inputStyle, marginBottom: "20px" }} placeholder="Full Name" required />
                     </Form.Item>
