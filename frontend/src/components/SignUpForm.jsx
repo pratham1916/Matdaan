@@ -1,156 +1,108 @@
-import React, { useEffect, useState } from 'react'
-import { Form, Input, Radio, Select, DatePicker, Alert, message } from 'antd'
-import { State, City } from 'country-state-city'
-import { keyBy, values } from 'lodash'
-import { ScreenMode } from '../pages/SignInPage'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react';
+import { Form, Input, Radio, Select, DatePicker, message } from 'antd';
+import { State, City } from 'country-state-city';
+import { keyBy } from 'lodash';
+import { ScreenMode } from '../pages/SignInPage';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+import '../Styles/SignUpForm.css';
+
 const SignUpForm = ({ onSwitchMode }) => {
-    const [form] = Form.useForm()
+    const [form] = Form.useForm();
 
-    const [allStates, setAllStates] = useState([])
-    const [currentState, setCurrentState] = useState(null)
-    const [stateById, setStateById] = useState({})
-    const [allCities, setAllCities] = useState([])
-    const [password, setPassword] = useState(null)
-    const [error, setError] = useState(null)
-    const [loading, setLoading] = useState(false)
-
-
+    const [allStates, setAllStates] = useState([]);
+    const [currentState, setCurrentState] = useState(null);
+    const [stateById, setStateById] = useState({});
+    const [allCities, setAllCities] = useState([]);
 
     useEffect(() => {
-        const sts = State.getStatesOfCountry("IN")
-        // console.log(sts);
-        setStateById(keyBy(sts, "name"))
-        setAllStates(sts)
-    }, [])
+        const sts = State.getStatesOfCountry("IN");
+        setStateById(keyBy(sts, "name"));
+        setAllStates(sts);
+    }, []);
 
     useEffect(() => {
-        const state = stateById[currentState]?.isoCode
-        const city = City.getCitiesOfState("IN", `${state}`)
-        setAllCities(city)
-    }, [currentState])
-
-    const containerStyle = {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
-        background: "#393E46"
-    }
-
-    const formStyle = {
-        background: "#ffffff",
-        padding: "40px",
-        borderRadius: "20px",
-        boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.1)",
-        width: "500px"
-    }
-
-    const inputStyle = {
-        borderRadius: "10px",
-        height: "45px"
-    }
-
-    const buttonStyle = {
-        width: "100%",
-        height: "45px",
-        fontSize: "16px",
-        fontWeight: "bold",
-        backgroundColor: "#1890ff",
-        borderRadius: "10px",
-        marginTop: "20px",
-        color: "#000000",
-        transition: "background-color 0.3s ease-in-out",
-        "&:hover": {
-            backgroundColor: "#0050b3"
+        if (currentState) {
+            const stateIsoCode = stateById[currentState]?.isoCode;
+            const cities = City.getCitiesOfState("IN", stateIsoCode);
+            setAllCities(cities);
         }
-    }
-
-    const registerLinkStyle = {
-        marginTop: "20px",
-        textAlign: "center"
-    }
+    }, [currentState, stateById]);
 
     const onFinish = async (values) => {
         try {
-            const { name, ...formData } = values;
-            formData.fullname = name;
-
-            const response = await axios.post('http://localhost:8080/register', formData);
-            console.log(response.data);
+            const response = await axios.post('http://localhost:8080/register', values);
             if (response.status === 200) {
-                onSwitchMode(ScreenMode.SIGN_IN)
+                onSwitchMode(ScreenMode.SIGN_IN);
             }
         } catch (error) {
-            console.error('Error registering user:', error);
+            message.error('Error registering user');
         }
     };
 
-
     return (
-        <div style={containerStyle}>
-            <section style={formStyle}>
-                <h3 style={{ textAlign: 'center', fontWeight: "bold", marginBottom: "30px", color: "#1890ff" }}>
+        <div className="signup-container">
+            <section className="signup-form-section">
+                <h3 className="signup-title">
                     भारतीय मतदाता बनने के लिए धन्यवाद
                 </h3>
-                <p style={{ textAlign: 'center', marginBottom: "20px", color: "#666666" }}>
-                    Please provide your valid information to create an account.
-                </p>
-                <Form form={form} onFinish={onFinish}>
-                    <Form.Item name='name'>
-                        <Input
-                            style={{ ...inputStyle, marginBottom: "20px" }}
-                            placeholder="Full Name"
-                            required
-                        />
+                <Form form={form} onFinish={onFinish} className="signup-form">
+                    <Form.Item name='name' rules={[{ required: true, message: 'Please input your full name!' }]}>
+                        <Input placeholder="Full Name" />
                     </Form.Item>
 
-                    <Form.Item name='email'>
-                        <Input style={{ ...inputStyle, marginBottom: "20px" }} placeholder='Enter Email' required />
+                    <Form.Item name='email' rules={[{ required: true, type: 'email', message: 'Please input a valid email!' }]}>
+                        <Input placeholder='Enter Email' />
                     </Form.Item>
-                    <Form.Item name='phone'>
-                        <Input style={{ ...inputStyle, marginBottom: "20px" }} placeholder='Enter Contact no.' required maxLength={10} minLength={10} />
+
+                    <Form.Item name='phone' rules={[{ required: true, message: 'Please input your contact number!', len: 10 }]}>
+                        <Input placeholder='Enter Contact no.' maxLength={10} />
                     </Form.Item>
-                    <Form.Item name='gender'>
-                        <Radio.Group onChange={(e) => e} style={{ marginBottom: "20px" }}>
+
+                    <Form.Item name='gender' rules={[{ required: true, message: 'Please select your gender!' }]}>
+                        <Radio.Group>
                             <Radio value="Male">Male</Radio>
                             <Radio value="Female">Female</Radio>
                             <Radio value="Other">Other</Radio>
                         </Radio.Group>
                     </Form.Item>
-                    <Form.Item name="state">
-                        <Select onChange={(e) => setCurrentState(e)} showSearch placeholder='Select State'>
-                            {allStates.map((e) => (
-                                <Select.Option value={e.name} key={e.name}>{e.name}</Select.Option>
+
+                    <Form.Item name="state" rules={[{ required: true, message: 'Please select your state!' }]}>
+                        <Select onChange={setCurrentState} showSearch placeholder='Select State'>
+                            {allStates.map(state => (
+                                <Select.Option value={state.name} key={state.isoCode}>{state.name}</Select.Option>
                             ))}
                         </Select>
                     </Form.Item>
-                    <Form.Item name="city">
+
+                    <Form.Item name="city" rules={[{ required: true, message: 'Please select your city!' }]}>
                         <Select showSearch placeholder='Select City'>
-                            {allCities.map((e) => (
-                                <Select.Option value={e.name} key={e.name}>{e.name}</Select.Option>
+                            {allCities.map(city => (
+                                <Select.Option value={city.name} key={city.name}>{city.name}</Select.Option>
                             ))}
                         </Select>
                     </Form.Item>
-                    <Form.Item name="dob">
-                        <DatePicker style={{ ...inputStyle, marginBottom: "20px" }} format='DD/MM/YYYY' placeholder='Date OF Birth' />
+
+                    <Form.Item name="dob" rules={[{ required: true, message: 'Please select your date of birth!' }]}>
+                        <DatePicker format='DD/MM/YYYY' placeholder='Date OF Birth' />
                     </Form.Item>
-                    <Form.Item name="password">
-                        <Input.Password style={{ ...inputStyle, marginBottom: "20px" }} placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
+
+                    <Form.Item name="password" rules={[{ required: true, message: 'Please input your password!' }]}>
+                        <Input.Password placeholder='Password' />
                     </Form.Item>
+
                     <Form.Item>
-                        <button style={buttonStyle} >Register</button>
+                        <button className="signup-submit-button">Register</button>
                     </Form.Item>
                 </Form>
-                <p style={registerLinkStyle}>
+                <p className="signup-already-account">
                     Already have an account?
-                    <Link to="/SignIn" className="nav-link login" onClick={() => onSwitchMode(ScreenMode.SIGN_IN)}>Login</Link>
+                    <Link to="/SignIn" onClick={() => onSwitchMode(ScreenMode.SIGN_IN)}>Login</Link>
                 </p>
             </section>
         </div>
-    )
-}
+    );
+};
 
-export default SignUpForm
+export default SignUpForm;
