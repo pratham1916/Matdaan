@@ -17,6 +17,8 @@ const SignUpForm = ({ onSwitchMode }) => {
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
 
+
+
     useEffect(() => {
         const sts = State.getStatesOfCountry("IN")
         // console.log(sts);
@@ -73,8 +75,14 @@ const SignUpForm = ({ onSwitchMode }) => {
 
     const onFinish = async (values) => {
         try {
-            const response = await axios.post('http://localhost:8080/register', values);
+            const { name, ...formData } = values;
+            formData.fullname = name;
+
+            const response = await axios.post('http://localhost:8080/register', formData);
             console.log(response.data);
+            if (response.status === 200) {
+                onSwitchMode(ScreenMode.SIGN_IN)
+            }
         } catch (error) {
             console.error('Error registering user:', error);
         }
@@ -92,8 +100,13 @@ const SignUpForm = ({ onSwitchMode }) => {
                 </p>
                 <Form form={form} onFinish={onFinish}>
                     <Form.Item name='name'>
-                        <Input style={{ ...inputStyle, marginBottom: "20px" }} placeholder="Full Name" required />
+                        <Input
+                            style={{ ...inputStyle, marginBottom: "20px" }}
+                            placeholder="Full Name"
+                            required
+                        />
                     </Form.Item>
+
                     <Form.Item name='email'>
                         <Input style={{ ...inputStyle, marginBottom: "20px" }} placeholder='Enter Email' required />
                     </Form.Item>
