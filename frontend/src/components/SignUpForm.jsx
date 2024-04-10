@@ -32,12 +32,16 @@ const SignUpForm = ({ onSwitchMode }) => {
 
     const onFinish = async (values) => {
         try {
-            const response = await axios.post('http://localhost:8080/register', values);
+            const { name, ...formData } = values;
+            formData.fullname = name;
+
+            const response = await axios.post('http://localhost:8080/register', formData);
+            console.log(response.data);
             if (response.status === 200) {
-                onSwitchMode(ScreenMode.SIGN_IN);
+                onSwitchMode(ScreenMode.SIGN_IN)
             }
         } catch (error) {
-            message.error('Error registering user');
+            console.error('Error registering user:', error);
         }
     };
 
