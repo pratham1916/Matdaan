@@ -35,8 +35,8 @@ const SignUpForm = () => {
             const { name, ...formData } = values;
             formData.fullname = name;
 
-            const response = await axios.post('http://localhost:8080/register', formData);
-            console.log(response.data);
+            const response1 = await axios.post('http://localhost:8080/register', formData);
+            console.log(response1.data);
         } catch (error) {
             console.error('Error registering user:', error);
         }
