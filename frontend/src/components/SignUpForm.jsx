@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Form, Input, Radio, Select, DatePicker, message } from 'antd';
 import { State, City } from 'country-state-city';
 import { keyBy } from 'lodash';
-import { ScreenMode } from '../pages/SignInPage';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import login from "../images/login.jpg"
+import "../Styles/login-register.css";
 
-import '../Styles/SignUpForm.css';
-
-const SignUpForm = ({ onSwitchMode }) => {
+const SignUpForm = () => {
     const [form] = Form.useForm();
 
     const [allStates, setAllStates] = useState([]);
@@ -32,36 +31,36 @@ const SignUpForm = ({ onSwitchMode }) => {
 
     const onFinish = async (values) => {
         try {
+            const response = await axios.post('http://localhost:8080/register', values);
             const { name, ...formData } = values;
             formData.fullname = name;
 
             const response = await axios.post('http://localhost:8080/register', formData);
             console.log(response.data);
-            if (response.status === 200) {
-                onSwitchMode(ScreenMode.SIGN_IN)
-            }
         } catch (error) {
             console.error('Error registering user:', error);
         }
     };
 
     return (
-        <div className="signup-container">
-            <section className="signup-form-section">
-                <h3 className="signup-title">
-                    भारतीय मतदाता बनने के लिए धन्यवाद
-                </h3>
-                <Form form={form} onFinish={onFinish} className="signup-form">
+
+        <div className='container'>
+            <div className="left-container">
+                <img src={login} alt="login-img" />
+            </div>
+            <div className="right-container">
+                <h3 className="title"> आपकी आवाज़, आपका वोट: अभी पंजीकरण करें </h3>
+                <Form form={form} onFinish={onFinish}   >
                     <Form.Item name='name' rules={[{ required: true, message: 'Please input your full name!' }]}>
-                        <Input placeholder="Full Name" />
+                        <Input className="input" placeholder="Full Name" />
                     </Form.Item>
 
                     <Form.Item name='email' rules={[{ required: true, type: 'email', message: 'Please input a valid email!' }]}>
-                        <Input placeholder='Enter Email' />
+                        <Input className="input" placeholder='Enter Email' />
                     </Form.Item>
 
                     <Form.Item name='phone' rules={[{ required: true, message: 'Please input your contact number!', len: 10 }]}>
-                        <Input placeholder='Enter Contact no.' maxLength={10} />
+                        <Input className="input" placeholder='Enter Contact no.' maxLength={10} />
                     </Form.Item>
 
                     <Form.Item name='gender' rules={[{ required: true, message: 'Please select your gender!' }]}>
@@ -73,7 +72,7 @@ const SignUpForm = ({ onSwitchMode }) => {
                     </Form.Item>
 
                     <Form.Item name="state" rules={[{ required: true, message: 'Please select your state!' }]}>
-                        <Select onChange={setCurrentState} showSearch placeholder='Select State'>
+                        <Select className="input" onChange={setCurrentState} showSearch placeholder='Select State'>
                             {allStates.map(state => (
                                 <Select.Option value={state.name} key={state.isoCode}>{state.name}</Select.Option>
                             ))}
@@ -81,7 +80,7 @@ const SignUpForm = ({ onSwitchMode }) => {
                     </Form.Item>
 
                     <Form.Item name="city" rules={[{ required: true, message: 'Please select your city!' }]}>
-                        <Select showSearch placeholder='Select City'>
+                        <Select className="input" showSearch placeholder='Select City'>
                             {allCities.map(city => (
                                 <Select.Option value={city.name} key={city.name}>{city.name}</Select.Option>
                             ))}
@@ -89,23 +88,24 @@ const SignUpForm = ({ onSwitchMode }) => {
                     </Form.Item>
 
                     <Form.Item name="dob" rules={[{ required: true, message: 'Please select your date of birth!' }]}>
-                        <DatePicker format='DD/MM/YYYY' placeholder='Date OF Birth' />
+                        <DatePicker className="input" format='DD/MM/YYYY' placeholder='Date OF Birth' />
                     </Form.Item>
 
                     <Form.Item name="password" rules={[{ required: true, message: 'Please input your password!' }]}>
-                        <Input.Password placeholder='Password' />
+                        <Input.Password className="input" placeholder='Password' />
                     </Form.Item>
 
+                    <p className="signup-already-account">Already have an account?
+                        <Link to="/login">Login</Link>
+                    </p>
                     <Form.Item>
-                        <button className="signup-submit-button">Register</button>
+                        <button className="button btn">Register</button>
                     </Form.Item>
                 </Form>
-                <p className="signup-already-account">
-                    Already have an account?
-                    <Link to="/SignIn" onClick={() => onSwitchMode(ScreenMode.SIGN_IN)}>Login</Link>
-                </p>
-            </section>
+
+            </div>
         </div>
+
     );
 };
 

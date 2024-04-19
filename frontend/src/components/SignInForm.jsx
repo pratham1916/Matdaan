@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Typography } from 'antd';
-import { ScreenMode } from '../pages/SignInPage';
+import { Form, Input, Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import login from "../images/login2.jpg"
+import "../Styles/login-register.css";
 
-import "../Styles/SignInForm.css";
+const  Text  = Typography;
 
-const { Title, Text } = Typography;
-
-const SignInForm = ({ onSwitchMode }) => {
+const SignInForm = () => {
     const [voterId, setId] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -16,11 +15,7 @@ const SignInForm = ({ onSwitchMode }) => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8080/login', {
-                voterId,
-                password
-            });
-
+            const response = await axios.post('http://localhost:8080/login', { voterId, password });
             const token = response.data;
             if (token) {
                 localStorage.setItem('token', token);
@@ -28,46 +23,39 @@ const SignInForm = ({ onSwitchMode }) => {
             } else {
                 alert("Wrong credentials");
             }
-        } catch (err) {
+        } catch {
             alert("Login failed");
         }
     };
 
     return (
-        <div className="container">
-            <section className="form-section">
-                <Title level={3} className="form-title">नमस्ते, Voters</Title>
-                <Text className="form-description">
-                    Please provide your 10-digit Voter ID and password to proceed.
-                </Text>
-                <Form
-                    name="signInForm"
-                    initialValues={{ remember: true }}
-                >
-                    <Form.Item
-                        name="voterId"
-                        rules={[{ required: true, message: 'Please enter your Voter ID!' }]}
-                    >
-                        <Input className="input-style" onChange={(e) => setId(e.target.value)} placeholder="Enter 10 digit Voter ID" />
+
+        <div className='container'>
+            <div className="left-container">
+                <img src={login} alt="login-img" />
+            </div>
+            <div className="right-container">
+                <h1 className="title">Welcome to Your Voting Portal: Every Vote Matters</h1>
+                <p className="description">
+                    Join the democratic journey by entering your 10-digit Voter ID and password to cast your vote. Every vote is a voice that shapes the future.
+                </p>
+                <Form name="signInForm" initialValues={{ remember: true }}>
+                    <Form.Item name="voterId" rules={[{ required: true, message: 'Please enter your Voter ID!' }]}>
+                        <Input className="input" onChange={(e) => setId(e.target.value)} placeholder="Enter 10 digit Voter ID" />
                     </Form.Item>
-                    <Form.Item
-                        name="password"
-                        rules={[{ required: true, message: 'Please enter your password!' }]}
-                    >
-                        <Input.Password className="input-style" placeholder="Enter password" onChange={(e) => setPassword(e.target.value)} />
+                    <Form.Item name="password" rules={[{ required: true, message: 'Please enter your password!' }]}>
+                        <Input.Password className="input" placeholder="Enter password" onChange={(e) => setPassword(e.target.value)} />
                     </Form.Item>
+                    <Text className="signin-register-link"> Don't have an account?
+                        <Link to="/register" className="signin-nav-link" >Register now</Link>
+                    </Text>
                     <Form.Item>
-                        <Button type="primary" onClick={handleLogin} className="login-button">
-                            Login
-                        </Button>
+                        <button onClick={handleLogin} className="button btn"> Login </button>
                     </Form.Item>
                 </Form>
-                <Text className="register-link">
-                    Don't have an account?
-                    <Link to="/SignIn" className="nav-link login" onClick={() => onSwitchMode(ScreenMode.SIGN_UP)}>Register now</Link>
-                </Text>
-            </section>
+            </div>
         </div>
+
     );
 };
 

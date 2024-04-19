@@ -5,7 +5,7 @@ import { AuthContext } from '../Context/AuthContexProvider'
 const PrivateRoute = ({ children }) => {
     const { auth } = useContext(AuthContext)
     return (
-        auth.isAuth ? children : <Navigate to={"/SignIn"} />
+        auth.isAuth ? children : <Navigate to={"/login"} />
     )
 }
 
