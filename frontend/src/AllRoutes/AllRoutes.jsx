@@ -6,8 +6,8 @@ import Vote from '../pages/Vote';
 import Result from '../pages/Result';
 import Contact from '../pages/Contact';
 import PrivateRoute from './PrivateRoutes';
-import Login from '../pages/Login';
-import SignInPage from '../pages/SignInPage';
+import SignInForm from '../components/SignInForm';
+import SignUpForm from '../components/SignUpForm';
 
 const AllRoutes = () => {
     return (
@@ -18,7 +18,8 @@ const AllRoutes = () => {
                 <Route path='/vote' element={<PrivateRoute><Vote /></PrivateRoute>}></Route>
                 <Route path='/result' element={<PrivateRoute><Result /></PrivateRoute>}></Route>
                 <Route path='/contact' element={<Contact />}></Route>
-                <Route path='/SignIn' element={<SignInPage />}></Route>
+                <Route path='/login' element={<SignInForm />}></Route>
+                <Route path='/register' element={<SignUpForm />}></Route>
             </Routes>
         </div>
     )
