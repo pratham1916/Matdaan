@@ -21,12 +21,14 @@ userRouter.post("/register", async (req, res) => {
             if (err) {
                 return res.status(400).json({ message: "Invalid Password", err });
             }
-            const vId = (Math.floor(Math.random() * 1000000000) + 1000).toString();
+            const firstNamePart = fullname.split(' ')[0];
+            const randomNumber = Math.floor(Math.random() * 9000000000) + 1000000000;
+            const vId = `${firstNamePart}${randomNumber}`;
             const user = new UserModel({
                 fullname, email, phone, gender, dob, voterId: vId, state, city, password: hash
             });
             await user.save();
-            return res.send({ status: "success", messaage: "Registration Susscessfull", user })
+            return res.send({ status: "success", message: "Registration Susscessfull", user })
         })
     }
     catch (error) {
@@ -46,9 +48,9 @@ userRouter.post("/login", async (req, res) => {
                 bcrypt.compare(password, user.password, (err, result) => {
                     if (result) {
                         const token = jwt.sign({ userID: user._id, fullname: user.fullname }, "masai")
-                        res.status(200).json({ msg: "Login Successfull", token })
+                        res.status(200).json({ message: "Login Successfull", token, user})
                     } else {
-                        res.status(400).json({ message: "Try Again After Sometime" });
+                        res.status(400).json({ message: "Wrong VoterId Or Password" });
                     }
                 })
             }

@@ -1,154 +1,115 @@
-.container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 70%;
-    margin: 120px auto 0;
-    background-color: #f4f4f4;
+.login-form-container {
+    width: 32%;
+    margin: 70px auto 0 ;
+    border: 1px solid grey;
+    border-radius: 15px;
 }
 
-.left-container, .right-container {
-    display: flex;
+.register-form-container {
+    width: 35%;
+    margin: 10px auto 0;
+    border: 1px solid grey;
+    border-radius: 15px;
 }
 
-.left-container {
-    width: 50%;
+.login-image-container {
+    height: 30vh;
+    background-image: url("../images/login-banner.jpg");
+    background-size: cover;
+    background-position: center;
+    border-radius: 15px 15px 0 0;
+}
+.register-image-container {
+    height: 30vh;
+    background-image: url("../images/register-banner.jpg");
+    background-size: cover;
+    background-position: bottom;
+    border-radius: 15px 15px 0 0;
 }
 
-.left-container img {
-    width: 100%;
+.form-content {
+    padding: 10px 20px 20px;
+    background-color: #cacaca;
+    border-radius:0 0 15px 15px;
 }
-
-.right-container {
-    width: 45%;
-    flex-direction: column;
-    padding-right: 50px;
-}
-
-.title, .description, .button, .signin-nav-link {
+.form-title {
+    font-size: 1.4rem;
     text-align: center;
+    margin-bottom: 15px;
 }
-
-.title {
-    font-size: 1.5rem;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.description {
+.form-description {
     font-size: 0.75rem;
-    color: #666;
-    margin-bottom: 20px;
+    color: #555555;
+    text-align: center;
+    margin-bottom: 15px;
 }
-
-.input, .button {
+.form-input{
     width: 100%;
-    border-radius: 5px;
-    border: 1px solid #ccc;
 }
 
-.button {
+.form-button {
+    width: 100%;
     color: white;
-    border: 1px solid transparent;
-    cursor: pointer;
-    font-size: 1em;
+    background-color: #ff6a00;
+    font-weight: 600;
+    transition: 0.4s ease;
 }
 
-.signin-register-link {
+.form-link-btn{
     display: block;
-    margin-top: 20px;
+    width: 100%;
+    color: white;
+    background-color: #ff6a00;
+    font-weight: 600;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 4px 0;
+    text-align: center;
+    transition: 0.4s ease;
+    border: 1px solid #ff6a00;
+}
+.form-link-btn:hover{
+    background-color: white;
+    color: #ff6a00;
+    border: 1px solid #ff6a00;
 }
 
-.signin-nav-link {
-    margin-left: 5px;
-    color: #007BFF;
-    text-decoration: none;
-}
-
-.signin-nav-link:hover {
-    text-decoration: underline;
+.account-link-text{
+    display: block;
+    margin-top: -15px;
+    text-align: center;
+    font-weight: 700;
 }
 
 @media (max-width: 1200px) {
-    .container {  
-        width: 90%;
-        margin-top: 110px;
+    .login-form-container,.register-form-container {  
+        width: 40%; 
     }
 }
 
 @media (max-width: 1024px) {
-    .container {  
-        width: 90%;
-        margin-top: 170px;
-    }
-    .left-container, .right-container {
-        width: 50%;
-    }
-    .right-container {
-        padding: 0 10px;
-    }
+    .login-form-container,.register-form-container { 
+        width: 50%; 
+    }   
 }
 
 @media (max-width: 768px) {
-    .container {  
-        flex-direction: column;
-        margin-top: 100px;
-    }
-    .title {
-        font-size: 1.4em;
-    }
-    .description {
-        font-size: 0.8em;
-    }
-    .left-container {
-        width: 100%;
-    }
-    .left-container img {
-        width: 100%;
-    }
-    .right-container {
-        margin-top: 20px;
-        padding: 0 50px;
-        width: 100%;
+    .login-form-container,.register-form-container { 
+        width: 60%; 
     }
 }
 
 @media (max-width: 600px) {
-    .container {  
-        margin-top: 70px;
-    }
-    .title {
-        font-size: 1em;
-    }
-    .description{
-        font-size: .8em;
-    }
-
-    .input, .button {
-        font-size: 1em;
-    }
-    .left-container, .right-container {
-        width: 100%;
-    }
-    .right-container{
-        padding: 20px;
+    .login-form-container,.register-form-container { 
+        width: 70%; 
     }
 }
 
 @media (max-width: 480px) {
-    .left-container img {
-        width: 100%;
-        border-radius: 8px;
+    .login-form-container,.register-form-container { 
+        width: 90%; 
     }
-    .right-container {
-        width: 100%;
-        padding: 0 10px;
-    }
-    .input, .button {
-        font-size: 15px;
-    }
-
-    .signin-register-link, .signin-nav-link {
-        font-size: 0.9em;
+    .form-title{
+        font-size: 1.1rem;
     }
 }
