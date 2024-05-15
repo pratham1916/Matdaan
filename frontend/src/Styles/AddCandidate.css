@@ -1,0 +1,71 @@
+.candidate {
+    margin-top:50px;
+}
+
+.candidate-banner {
+    background-image: url("../images/candidate-banner.jpg");
+    background-size: cover;
+    background-position: bottom;
+    height: 70vh;
+}
+
+.candidate-form {
+    background-color: #cacaca;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.form-main {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-row,.form-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.upload-item {
+    text-align: center;
+    border: 2px dashed #ccc;
+    border-radius: 6px;
+
+}
+.upload-control{
+    padding: 20px 67px;
+    background-color: rgb(174, 174, 174);
+    border-radius: 8px;
+}
+
+.input-field {
+    width: 100%;
+}
+
+.submit-button {
+    width: 100%;
+    color: white;
+    background-color: #ff6a00;
+    font-weight: 600;
+    transition: 0.4s ease;
+}
+
+
+
+@media (max-width: 768px) {
+
+    .form-row {
+        flex-direction: column;
+    }
+
+    .personal-info,
+    .upload-item,
+    .form-row {
+        margin-right: 0;
+    }
+
+    .form-main {
+        gap: 10px;
+    }
+}

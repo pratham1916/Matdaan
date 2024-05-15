@@ -1,9 +1,10 @@
-const access = (...rolesPermitted) => {
-    return (req, res, next) => {
-        if (rolesPermitted.includes(req.role)) {
-            next()
-        } else {
-            res.json({ msg: "You don't have access" })
+const access = (...roles) =>{
+    return (req,res,next)=>{
+        if(roles.includes(req.role)){
+            next();
+        }
+        else{
+            res.status(403).send({message: 'You Dont have access'});
         }
     }
 }

@@ -1,6 +1,5 @@
 import { Button, Form, Input, Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
-import loginImage from "../images/login2.jpg";
 import "../styles/login-register.css";
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../redux/action';
@@ -31,11 +30,11 @@ const LoginForm = ({ setIsUser }: LoginFormProps) => {
       <div className="form-content">
         <h1 className="form-title">Welcome to Your मतदान !</h1>
         <p className="form-description">
-          Join the democratic journey by entering your 10-digit Voter ID and password to cast your vote. Every vote is a voice that shapes the future.
+          Join the democratic journey by entering your Voter ID and password to cast your vote. Every vote is a voice that shapes the future.
         </p>
         <Form name="signInForm" form={form} onFinish={onFinish}>
           <Form.Item name="voterId" rules={[{ required: true, message: 'Please enter your Voter ID!' }]}>
-            <Input className="form-input" placeholder="Enter 10 digit Voter ID" />
+            <Input className="form-input" placeholder="Enter Your Voter ID" />
           </Form.Item>
           <Form.Item name="password" rules={[{ required: true, message: 'Please enter your password!' }]}>
             <Input.Password className="form-input" placeholder="Enter password" />

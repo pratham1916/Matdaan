@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema({
     city: { type: String, required: true },
     password: { type: String, required: true, select: false },
     role: { type: String, enum: ["admin", "user"], default: "user" },
-    // isVoteStart: {type: Boolean, default: false},
+    isVoteStart: {type: Boolean, default: false},
     status: { type: String, default: "Not Verified" }
 }, { versionKey: false });
 

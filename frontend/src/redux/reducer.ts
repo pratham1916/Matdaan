@@ -1,4 +1,9 @@
-import { LOGIN_FAIL, LOGIN_LOADING, LOGIN_SUCCESS, REGISTER_FAIL, REGISTER_LOADING, REGISTER_SUCCESS } from "./actionTypes";
+import { ADD_CANDIDATE_FAIL, ADD_CANDIDATE_LOADING, ADD_CANDIDATE_SUCCESS, LOGIN_FAIL, LOGIN_LOADING, LOGIN_SUCCESS, REGISTER_FAIL, REGISTER_LOADING, REGISTER_SUCCESS } from "./actionTypes";
+
+interface Action {
+  type: string;
+  payload?: any;
+}
 
 interface RegisterState {
   isError: boolean;
@@ -13,9 +18,10 @@ interface LoginState {
   isLoading: boolean;
 }
 
-interface Action {
-  type: string;
-  payload?: any;
+interface CandidateState{
+  isLoading: boolean;
+  success: boolean;
+  isError: boolean;
 }
 
 const initialState_Register: RegisterState = {
@@ -30,6 +36,12 @@ const initialState_Login: LoginState = {
   userData: {},
   isLoading: false
 };
+
+const initialState_Candidate : CandidateState = {
+  isError: false,
+  success: false,
+  isLoading: false
+}
 
 export const RegisterReducer = (state: RegisterState = initialState_Register, action: Action): RegisterState => {
   switch (action.type) {
@@ -51,6 +63,19 @@ export const LoginReducer = (state: LoginState = initialState_Login, action: Act
     case LOGIN_SUCCESS:
       return { ...state, isLoading: false, isError: false, isAuth: true, userData: action.payload };
     case LOGIN_FAIL:
+      return { ...state, isLoading: false, isError: true };
+    default:
+      return state;
+  }
+};
+
+export const CandidateReducer = (state: CandidateState = initialState_Candidate, action: Action): CandidateState => {
+  switch (action.type) {
+    case ADD_CANDIDATE_LOADING:
+      return { ...state, isLoading: true, isError: false };
+    case ADD_CANDIDATE_SUCCESS:
+      return { ...state, isLoading: false, isError: false, success:true};
+    case ADD_CANDIDATE_FAIL:
       return { ...state, isLoading: false, isError: true };
     default:
       return state;

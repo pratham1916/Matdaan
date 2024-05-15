@@ -1,9 +1,8 @@
-import { useEffect, useState, FC } from 'react';
-import { Form, Input, Radio, Select, DatePicker, Row, Col, Button } from 'antd';
+import { useEffect, useState } from 'react';
+import { Form, Input, Select, DatePicker, Row, Col, Button } from 'antd';
 import { State, City, IState, ICity } from 'country-state-city';
 import { keyBy } from 'lodash';
 import { Link, useNavigate } from 'react-router-dom';
-import registerImage from "../images/login.jpg";
 import "../styles/login-register.css";
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../redux/action';
@@ -19,7 +18,7 @@ interface RegisterValues {
     password: string;
 }
 
-const RegisterForm: FC = () => {
+const RegisterForm = () => {
     const [form] = Form.useForm();
     const [allStates, setAllStates] = useState<IState[]>([]);
     const [currentState, setCurrentState] = useState<string | null>(null);

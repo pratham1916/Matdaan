@@ -1,10 +1,10 @@
-import React from 'react'
+import "../styles/Contact.css"
 
 const Contact = () => {
   return (
-    <div>
-      Contact
-    </div>
+    <section className='contact'>
+
+    </section>
   )
 }
 

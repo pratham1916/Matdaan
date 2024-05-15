@@ -1,5 +1,6 @@
 import AllRoutes from './AllRoutes/AllRoutes'
 import './App.css'
+import Footer from './components/Footer';
 import Navbar from './components/Navbar'
 import { useEffect, useState } from 'react';
 
@@ -15,6 +16,7 @@ function App() {
     <div className="app">
       {isUser && <Navbar setIsUser={setIsUser} />}
       <AllRoutes setIsUser={setIsUser}/>
+      {isUser && <Footer setIsUser={setIsUser} />}
     </div>
   );
 }

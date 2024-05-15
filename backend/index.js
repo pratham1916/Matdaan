@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const { connection } = require("./config/db.config");
 const { userRouter } = require("./routes/UserRoutes");
+const { candidateRouter } = require("./routes/CandidateRoute");
 require("dotenv").config();
 const app = express();
 
@@ -9,6 +10,7 @@ app.use(cors())
 app.use(express.json());
 
 app.use("/", userRouter)
+app.use("/candidate",candidateRouter)
 
 
 app.listen(8080, async() => {

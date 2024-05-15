@@ -4,7 +4,7 @@ import "../styles/Home.css";
 import video1 from "../images/1.mp4";
 import video2 from "../images/2.mp4";
 import video3 from "../images/3.mp4";
-import video4 from "../images/4.mp4"; 
+import video4 from "../images/4.mp4";
 
 const Home = () => {
   const videoContent = [
@@ -17,7 +17,7 @@ const Home = () => {
   const [activeContent, setActiveContent] = useState(videoContent[0]);
   const [loading, setLoading] = useState(true);
 
-  const handleNavClick = (index:number):void => {
+  const handleNavClick = (index: number): void => {
     setLoading(true);
     setActiveContent(videoContent[index]);
   };
@@ -42,6 +42,13 @@ const Home = () => {
           {videoContent.map((_, index) => (
             <div key={index} className="nav-btn" onClick={() => handleNavClick(index)}></div>
           ))}
+        </div>
+      </section>
+
+      <section className="home-section">
+        <div className="section_title">
+          <h2>Team</h2>
+          <p>Our Hadrworking Team</p>
         </div>
       </section>
     </>

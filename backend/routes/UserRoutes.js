@@ -3,6 +3,13 @@ const userRouter = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const UserModel = require('../model/UserModel');
+const { auth } = require('../middleware/auth.middleware');
+const { access } = require('../middleware/access.middleware');
+require("dotenv").config()
+
+userRouter.get("/", auth, access("admin"),async(req,res)=>{
+    res.send("Hello")
+})
 
 userRouter.post("/register", async (req, res) => {
     const { fullname, email, phone, gender, dob, state, city, password } = req.body;
@@ -47,7 +54,7 @@ userRouter.post("/login", async (req, res) => {
             else {
                 bcrypt.compare(password, user.password, (err, result) => {
                     if (result) {
-                        const token = jwt.sign({ userID: user._id, fullname: user.fullname }, "masai")
+                        const token = jwt.sign({ userId: user._id}, process.env.SECRET_KEY)
                         res.status(200).json({ message: "Login Successfull", token, user})
                     } else {
                         res.status(400).json({ message: "Wrong VoterId Or Password" });
