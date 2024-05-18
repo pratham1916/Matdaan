@@ -9,8 +9,7 @@ import UserVote from "../pages/UserVote";
 import UserResult from "../pages/UserResult";
 import AdminResult from "../pages/AdminResult";
 import VerifyVoters from "../pages/VerifyVoters";
-import AddCandidate from "../pages/AddCandidate";
-import CandidateList from "../pages/CandidateList";
+import Candidate from "../pages/Candidate";
 
 interface AllRoutesProps {
     setIsUser: (value: boolean) => void;
@@ -30,8 +29,7 @@ const AllRoutes = ({ setIsUser }: AllRoutesProps) => {
             <Route path="/userVote" element={<PrivateRoute><UserVote /></PrivateRoute>} />
             <Route path="/userResult" element={<PrivateRoute><UserResult /></PrivateRoute>} />
             <Route path="/verifyVoters" element={<PrivateRoute><VerifyVoters /></PrivateRoute>} />
-            <Route path="/addCandidate" element={<PrivateRoute><AddCandidate /></PrivateRoute>} />
-            <Route path="/candidateList" element={<PrivateRoute><CandidateList /></PrivateRoute>} />
+            <Route path="/CandidateInfo" element={<PrivateRoute><Candidate /></PrivateRoute>} />
             <Route path="/adminResult" element={<PrivateRoute><AdminResult /></PrivateRoute>} />
         </Routes>
     );

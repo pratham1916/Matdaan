@@ -4,27 +4,28 @@ import { PlusOutlined } from '@ant-design/icons';
 import { State, City } from "country-state-city";
 import { keyBy } from "lodash";
 import { IState, ICity } from "country-state-city";
-import "../styles/AddCandidate.css"
+import "../styles/Candidate.css"
 import { useDispatch } from "react-redux";
 import { addCandidate } from "../redux/action";
+import CandidateList from "./CandidateList";
 
 interface CandidateValues {
-  profilePic:string;
-  signature:string;
+  profilePic: any;
+  signature: any;
   fullname: string;
   email: string;
   phone: string;
   gender: 'Male' | 'Female' | 'Other';
   dob: string;
-  voterId:string;
-  adharId:string;
+  voterId: string;
+  adharId: string;
   state: string;
   city: string;
   party: string;
-  position:string;
+  position: string;
 }
 
-const AddCandidate = () => {
+const Candidate = () => {
   const [form] = Form.useForm();
   const [allStates, setAllStates] = useState<IState[]>([]);
   const [currentState, setCurrentState] = useState<string | null>(null);
@@ -92,15 +93,30 @@ const AddCandidate = () => {
     setDrawerVisible(false);
   };
 
-  const onFinish = async (formData: CandidateValues) => {
-    console.log(formData);
+  const onFinish = async (values: CandidateValues) => {
+    const formData = new FormData();
+    formData.append('fullname', values.fullname);
+    formData.append('email', values.email);
+    formData.append('gender', values.gender);
+    formData.append('dob', values.dob);
+    formData.append('voterId', values.voterId);
+    formData.append('adharId', values.adharId);
+    formData.append('phone', values.phone);
+    formData.append('state', values.state);
+    formData.append('city', values.city);
+    formData.append('party', values.party);
+    formData.append('position', values.position);
+    formData.append('profilePic', values.profilePic[0].originFileObj);
+    formData.append('signature', values.signature[0].originFileObj);
+  
     dispatch(addCandidate(formData));
-  }
+  };
+
 
   return (
     <section className="candidate">
       <div className="candidate-banner"></div>
-      <Button type="primary" onClick={showDrawer}>Add Candidate</Button>
+      <Button className="addCandidate-button" onClick={showDrawer}>Add Candidate</Button>
       <Drawer
         title="Add Candidate"
         width={600}
@@ -149,10 +165,9 @@ const AddCandidate = () => {
               </Select>
             </Form.Item>
 
-
             <div className="form-row">
               <Form.Item name="dob" rules={[{ required: true, message: "Please Enter Your DOB" }]} className="input-field">
-                <DatePicker style={{width:"100%"}} format='DD/MM/YYYY' placeholder='Date OF Birth' />
+                <DatePicker style={{ width: "100%" }} format='DD/MM/YYYY' placeholder='Date OF Birth' />
               </Form.Item>
               <Form.Item name='phone' rules={[{ required: true, message: "Please Enter Your Contact No." }]} className="input-field">
                 <Input placeholder='Enter Contact no.' maxLength={10} minLength={10} />
@@ -204,9 +219,9 @@ const AddCandidate = () => {
           </Form>
         </section>
       </Drawer>
+      <CandidateList/>
     </section>
   );
 }
 
-export default AddCandidate;
-
+export default Candidate;

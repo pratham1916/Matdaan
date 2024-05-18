@@ -76,8 +76,7 @@ const Navbar = ({ setIsUser }: NavbarProps) => {
                 {isAdmin && (
                     <>
                         <Link to="/verifyVoters" className={`navbar-link ${location.pathname === "/verifyVoters" ? "active" : ""}`} onClick={closeMenu}>Verify Voters</Link>
-                        <Link to="/addCandidate" className={`navbar-link ${location.pathname === "/addCandidate" ? "active" : ""}`} onClick={closeMenu}>Add Candidate</Link>
-                        <Link to="/candidateList" className={`navbar-link ${location.pathname === "/candidateList" ? "active" : ""}`} onClick={closeMenu}>Candidate List</Link>
+                        <Link to="/CandidateInfo" className={`navbar-link ${location.pathname === "/CandidateInfo" ? "active" : ""}`} onClick={closeMenu}>Candidate Info</Link>
                         <Link to="/adminResult" className={`navbar-link ${location.pathname === "/adminResult" ? "active" : ""}`} onClick={closeMenu}>Admin Result</Link>
                     </>
                 )}

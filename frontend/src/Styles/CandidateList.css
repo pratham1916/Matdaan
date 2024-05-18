@@ -1,0 +1,105 @@
+.candidate-list-section {
+    padding: 0 6%;
+}
+
+.status-radio-container {
+    margin: 20px 0;
+}
+
+.status-radio-group {
+    display: flex;
+}
+
+.candidate-card {
+    margin-top: 20px;
+}
+
+.candidate-image-container {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.candidate-image {
+    width: 100%;
+}
+
+.candidate-action-buttons {
+    display: flex;
+    gap: 10px;
+    
+}
+
+.status-button {
+    background-color: #52c41a;
+    border: none;
+}
+
+.status-button:hover {
+    background-color: #389e0d;
+}
+
+.delete-button {
+    background-color: #ff4d4f;
+    border: none;
+}
+
+.delete-button:hover {
+    background-color: #d9363e;
+}
+
+/* Media Queries */
+@media (max-width: 1200px) {
+    .candidate-list-section {
+        padding: 15px;
+    }
+
+    .status-radio-container {
+        margin-bottom: 15px;
+    }
+
+    .candidate-card {
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 992px) {
+    .status-radio-container {
+        text-align: left;
+    }
+
+    .candidate-card {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .status-radio-container {
+        margin-bottom: 10px;
+    }
+
+    .candidate-action-buttons {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .status-button,
+    .delete-button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .candidate-list-section {
+        padding: 10px;
+    }
+
+    .candidate-card {
+        margin-top: 10px;
+        padding: 10px;
+    }
+}

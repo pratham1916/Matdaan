@@ -3,11 +3,21 @@ import { Dispatch } from "redux";
 import { message } from "antd";
 import {
   ADD_CANDIDATE_FAIL, ADD_CANDIDATE_LOADING, ADD_CANDIDATE_SUCCESS,
+  DELETE_CANDIDATE_FAIL,
+  DELETE_CANDIDATE_LOADING,
+  DELETE_CANDIDATE_SUCCESS,
+  GET_CANDIDATE_FAIL,
+  GET_CANDIDATE_LOADING,
+  GET_CANDIDATE_SUCCESS,
   LOGIN_FAIL, LOGIN_LOADING, LOGIN_SUCCESS,
-  REGISTER_FAIL, REGISTER_LOADING, REGISTER_SUCCESS
+  REGISTER_FAIL, REGISTER_LOADING, REGISTER_SUCCESS,
+  UPDATE_CANDIDATE_STATUS_FAIL,
+  UPDATE_CANDIDATE_STATUS_LOADING,
+  UPDATE_CANDIDATE_STATUS_SUCCESS
 } from "./actionTypes";
 
-const BaseURL = "http://localhost:8080";
+export const BaseURL = "http://localhost:8080";
+export const UPLOAD_URL = `${BaseURL}/uploads`
 
 const getAxiosAuth = () => {
   const token = localStorage.getItem('token');
@@ -60,8 +70,6 @@ export const loginUser = (formData: any, navigate: any, setIsUser: any) => async
 export const addCandidate = (formData: any) => async (dispatch: Dispatch) => {
   dispatch({ type: ADD_CANDIDATE_LOADING });
   try {
-    console.log(formData);
-    
     const axiosAuth = getAxiosAuth();
     const response = await axiosAuth.post(`${BaseURL}/candidate`, formData);
     if (response.data.status === "success") {
@@ -71,10 +79,47 @@ export const addCandidate = (formData: any) => async (dispatch: Dispatch) => {
       dispatch({ type: ADD_CANDIDATE_FAIL });
       message.error(response.data.message);
       console.log(response.data);
-      
     }
   } catch (error: any) {
     dispatch({ type: ADD_CANDIDATE_FAIL });
     message.error(error.response?.data.message || error.message);
   }
 };
+
+export const getCandidates = (filters: any, page: number) => async (dispatch: Dispatch) => {
+  dispatch({ type: GET_CANDIDATE_LOADING });
+  try {
+    const axiosAuth = getAxiosAuth();
+    const response = await axiosAuth.get(`${BaseURL}/candidate?page=${page}`, {
+      headers: { filters: JSON.stringify(filters) },
+    });
+    dispatch({ type: GET_CANDIDATE_SUCCESS, payload: { candidates: response.data.candidates, total: response.data.count } });
+  } catch (error) {
+    dispatch({ type: GET_CANDIDATE_FAIL });
+  }
+};
+
+export const updateCandidateStatus = (id: string, status: string) => async (dispatch: Dispatch) => {
+  dispatch({ type: UPDATE_CANDIDATE_STATUS_LOADING });
+  try {
+    const axiosAuth = getAxiosAuth();
+    await axiosAuth.put(`${BaseURL}/candidate/${id}`, { status });
+    dispatch({ type: UPDATE_CANDIDATE_STATUS_SUCCESS });
+  } catch (error) {
+    dispatch({ type: UPDATE_CANDIDATE_STATUS_FAIL });
+  }
+};
+
+export const deleteCandidate = (id: string) => async (dispatch: Dispatch) => {
+  dispatch({ type: DELETE_CANDIDATE_LOADING });
+  try {
+    const axiosAuth = getAxiosAuth();
+    await axiosAuth.delete(`${BaseURL}/candidate/${id}`);
+    dispatch({ type: DELETE_CANDIDATE_SUCCESS });
+  } catch (error) {
+    dispatch({ type: DELETE_CANDIDATE_FAIL });
+  }
+};
+
+
+

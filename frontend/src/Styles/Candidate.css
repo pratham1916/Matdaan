@@ -5,8 +5,16 @@
 .candidate-banner {
     background-image: url("../images/candidate-banner.jpg");
     background-size: cover;
-    background-position: bottom;
-    height: 70vh;
+    background-position: center;
+    height: 40vh;
+}
+
+.addCandidate-button{
+    color: white;
+    background-color: #ff6a00;
+    font-weight: 600;
+    transition: 0.4s ease;
+    margin: 20px 6%;
 }
 
 .candidate-form {
