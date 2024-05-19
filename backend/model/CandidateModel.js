@@ -16,7 +16,7 @@ const CandidateSchema = new mongoose.Schema({
     profilePic: { type: String},
     signature: { type: String},
     status: { type: String},
-});
+},{ versionKey: false });
 
 CandidateSchema.plugin(paginate);
 const CandidateModel = mongoose.model("candidate", CandidateSchema)

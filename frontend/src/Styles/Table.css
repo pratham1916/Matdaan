@@ -1,4 +1,4 @@
-.candidate-list-section {
+.list-section {
     padding: 0 6%;
 }
 
@@ -10,7 +10,8 @@
     display: flex;
 }
 
-.candidate-card {
+.card {
+    width: 100%;
     margin-top: 20px;
 }
 
@@ -28,7 +29,7 @@
     width: 100%;
 }
 
-.candidate-action-buttons {
+.action-buttons {
     display: flex;
     gap: 10px;
     
@@ -54,7 +55,7 @@
 
 /* Media Queries */
 @media (max-width: 1200px) {
-    .candidate-list-section {
+    .list-section {
         padding: 15px;
     }
 
@@ -62,7 +63,8 @@
         margin-bottom: 15px;
     }
 
-    .candidate-card {
+    .card {
+        width: 100%;
         margin-top: 15px;
     }
 }
@@ -72,7 +74,7 @@
         text-align: left;
     }
 
-    .candidate-card {
+    .card {
         padding: 15px;
     }
 }
@@ -82,7 +84,7 @@
         margin-bottom: 10px;
     }
 
-    .candidate-action-buttons {
+    .action-buttons {
         flex-direction: column;
         gap: 5px;
     }
@@ -94,11 +96,11 @@
 }
 
 @media (max-width: 576px) {
-    .candidate-list-section {
+    .list-section {
         padding: 10px;
     }
 
-    .candidate-card {
+    .card {
         margin-top: 10px;
         padding: 10px;
     }

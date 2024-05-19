@@ -6,14 +6,23 @@ import {
   DELETE_CANDIDATE_FAIL,
   DELETE_CANDIDATE_LOADING,
   DELETE_CANDIDATE_SUCCESS,
+  DELETE_VOTERS_FAIL,
+  DELETE_VOTERS_LOADING,
+  DELETE_VOTERS_SUCCESS,
   GET_CANDIDATE_FAIL,
   GET_CANDIDATE_LOADING,
   GET_CANDIDATE_SUCCESS,
+  GET_VOTERS_FAIL,
+  GET_VOTERS_LOADING,
+  GET_VOTERS_SUCCESS,
   LOGIN_FAIL, LOGIN_LOADING, LOGIN_SUCCESS,
   REGISTER_FAIL, REGISTER_LOADING, REGISTER_SUCCESS,
   UPDATE_CANDIDATE_STATUS_FAIL,
   UPDATE_CANDIDATE_STATUS_LOADING,
-  UPDATE_CANDIDATE_STATUS_SUCCESS
+  UPDATE_CANDIDATE_STATUS_SUCCESS,
+  UPDATE_VOTERS_STATUS_FAIL,
+  UPDATE_VOTERS_STATUS_LOADING,
+  UPDATE_VOTERS_STATUS_SUCCESS
 } from "./actionTypes";
 
 export const BaseURL = "http://localhost:8080";
@@ -93,7 +102,7 @@ export const getCandidates = (filters: any, page: number) => async (dispatch: Di
     const response = await axiosAuth.get(`${BaseURL}/candidate?page=${page}`, {
       headers: { filters: JSON.stringify(filters) },
     });
-    dispatch({ type: GET_CANDIDATE_SUCCESS, payload: { candidates: response.data.candidates, total: response.data.count } });
+    dispatch({ type: GET_CANDIDATE_SUCCESS, payload: { candidates: response.data.candidates} });
   } catch (error) {
     dispatch({ type: GET_CANDIDATE_FAIL });
   }
@@ -120,6 +129,41 @@ export const deleteCandidate = (id: string) => async (dispatch: Dispatch) => {
     dispatch({ type: DELETE_CANDIDATE_FAIL });
   }
 };
+
+export const getVoters = (filters: any, page: number) => async (dispatch: Dispatch) => {
+  dispatch({ type: GET_VOTERS_LOADING});
+  try {
+    const axiosAuth = getAxiosAuth();
+    const response = await axiosAuth.get(`${BaseURL}/voters?page=${page}`, {
+      headers: { filters: JSON.stringify(filters) },
+    });
+    dispatch({ type: GET_VOTERS_SUCCESS, payload: response.data });
+  } catch (error) {
+    dispatch({ type: GET_VOTERS_FAIL });
+  }
+};
+
+export const updateVoterStatus = (id: string, status: string, voterId: string, email: string) => async (dispatch: Dispatch) => {
+  dispatch({ type: UPDATE_VOTERS_STATUS_LOADING });
+  try {
+      const response = await axios.put(`${BaseURL}/voters/${id}`, { status, voterId, email });
+      dispatch({ type: UPDATE_VOTERS_STATUS_SUCCESS, payload: response.data });
+  } catch (error) {
+      dispatch({ type: UPDATE_VOTERS_STATUS_FAIL});
+  }
+};
+
+export const deleteVoters = (id: string) => async (dispatch: Dispatch) => {
+  dispatch({ type: DELETE_VOTERS_LOADING });
+  try {
+    const axiosAuth = getAxiosAuth();
+    await axiosAuth.delete(`${BaseURL}/voters/${id}`);
+    dispatch({ type: DELETE_VOTERS_SUCCESS });
+  } catch (error) {
+    dispatch({ type: DELETE_VOTERS_FAIL });
+  }
+};
+
 
 
 

@@ -1,4 +1,4 @@
-import { ADD_CANDIDATE_FAIL, ADD_CANDIDATE_LOADING, ADD_CANDIDATE_SUCCESS, DELETE_CANDIDATE_FAIL, DELETE_CANDIDATE_LOADING, DELETE_CANDIDATE_SUCCESS, GET_CANDIDATE_FAIL, GET_CANDIDATE_LOADING, GET_CANDIDATE_SUCCESS, LOGIN_FAIL, LOGIN_LOADING, LOGIN_SUCCESS, REGISTER_FAIL, REGISTER_LOADING, REGISTER_SUCCESS, UPDATE_CANDIDATE_STATUS_FAIL, UPDATE_CANDIDATE_STATUS_LOADING, UPDATE_CANDIDATE_STATUS_SUCCESS } from "./actionTypes";
+import { ADD_CANDIDATE_FAIL, ADD_CANDIDATE_LOADING, ADD_CANDIDATE_SUCCESS, DELETE_CANDIDATE_FAIL, DELETE_CANDIDATE_LOADING, DELETE_CANDIDATE_SUCCESS, DELETE_VOTERS_FAIL, DELETE_VOTERS_LOADING, DELETE_VOTERS_SUCCESS, GET_CANDIDATE_FAIL, GET_CANDIDATE_LOADING, GET_CANDIDATE_SUCCESS, GET_VOTERS_FAIL, GET_VOTERS_LOADING, GET_VOTERS_SUCCESS, LOGIN_FAIL, LOGIN_LOADING, LOGIN_SUCCESS, REGISTER_FAIL, REGISTER_LOADING, REGISTER_SUCCESS, UPDATE_CANDIDATE_STATUS_FAIL, UPDATE_CANDIDATE_STATUS_LOADING, UPDATE_CANDIDATE_STATUS_SUCCESS, UPDATE_VOTERS_STATUS_FAIL, UPDATE_VOTERS_STATUS_LOADING, UPDATE_VOTERS_STATUS_SUCCESS } from "./actionTypes";
 
 interface Action {
   type: string;
@@ -23,7 +23,13 @@ interface CandidateState {
   success: boolean;
   isError: boolean;
   candidates: any;
-  total:number;
+}
+
+interface VotersState {
+  isLoading: boolean;
+  success: boolean;
+  isError: boolean;
+  voters: any;
 }
 
 const initialState_Register: RegisterState = {
@@ -43,8 +49,14 @@ const initialState_Candidate: CandidateState = {
   isError: false,
   success: false,
   isLoading: false,
-  candidates: [],
-  total:0
+  candidates: []
+}
+
+const initialState_Voters: VotersState = {
+  isError: false,
+  success: false,
+  isLoading: false,
+  voters: []
 }
 
 export const RegisterReducer = (state: RegisterState = initialState_Register, action: Action): RegisterState => {
@@ -84,7 +96,7 @@ export const CandidateReducer = (state: CandidateState = initialState_Candidate,
     case GET_CANDIDATE_LOADING:
       return { ...state, isLoading: true, isError: false };
     case GET_CANDIDATE_SUCCESS:
-      return { ...state, isLoading: false, isError: false, success: true, candidates: action.payload.candidates, total: action.payload.total };
+      return { ...state, isLoading: false, isError: false, success: true, candidates: action.payload.candidates };
     case GET_CANDIDATE_FAIL:
       return { ...state, isLoading: false, isError: true };
     case UPDATE_CANDIDATE_STATUS_LOADING:
@@ -98,6 +110,31 @@ export const CandidateReducer = (state: CandidateState = initialState_Candidate,
     case DELETE_CANDIDATE_SUCCESS:
       return { ...state, isLoading: false, isError: false, success: true };
     case DELETE_CANDIDATE_FAIL:
+      return { ...state, isLoading: false, isError: true };
+    default:
+      return state;
+  }
+};
+
+export const VotersReducer = (state: VotersState = initialState_Voters, action: Action): VotersState => {
+  switch (action.type) {
+    case GET_VOTERS_LOADING:
+      return { ...state, isLoading: true, isError: false };
+    case GET_VOTERS_SUCCESS:
+      return { ...state, isLoading: false, isError: false, success: true, voters: action.payload.voters };
+    case GET_VOTERS_FAIL:
+      return { ...state, isLoading: false, isError: true };
+    case UPDATE_VOTERS_STATUS_LOADING:
+      return { ...state, isLoading: true, isError: false };
+    case UPDATE_VOTERS_STATUS_SUCCESS:
+      return { ...state, isLoading: false, isError: false, success: true };
+    case UPDATE_VOTERS_STATUS_FAIL:
+      return { ...state, isLoading: false, isError: true };
+    case DELETE_VOTERS_LOADING:
+      return { ...state, isLoading: true, isError: false };
+    case DELETE_VOTERS_SUCCESS:
+      return { ...state, isLoading: false, isError: false, success: true };
+    case DELETE_VOTERS_FAIL:
       return { ...state, isLoading: false, isError: true };
     default:
       return state;

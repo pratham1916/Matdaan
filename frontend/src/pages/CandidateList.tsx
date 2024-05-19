@@ -4,7 +4,7 @@ import { ExclamationCircleFilled } from '@ant-design/icons';
 import { useDispatch, useSelector } from "react-redux";
 import { format } from 'date-fns';
 import { UPLOAD_URL, deleteCandidate, getCandidates, updateCandidateStatus } from "../redux/action";
-import "../styles/CandidateList.css";
+import "../styles/Table.css";
 
 const { confirm } = Modal;
 
@@ -16,6 +16,7 @@ const CandidateList = () => {
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 5,
+    showSizeChanger: true
   });
 
   const onLoad = (page = 1) => {
@@ -133,7 +134,7 @@ const CandidateList = () => {
       title: status === "All" ? "Status" : "Action",
       dataIndex: "status",
       render: (_: any, record: any) => (
-        <div className="candidate-action-buttons">
+        <div className="action-buttons">
           {status === "Current" && <Button type="default" className="status-button" onClick={() => onChangeStatus(record._id, "Previous")}>Previous</Button>}
           {status === "Previous" && <Button type="default" className="status-button" onClick={() => onChangeStatus(record._id, "Current")}>Current</Button>}
           {status === "All" && <Tag color={record.status === "Previous" ? "red" : "green"}>{record.status}</Tag>}
@@ -152,7 +153,7 @@ const CandidateList = () => {
   };
 
   return (
-    <section className="candidate-list-section">
+    <section className="list-section">
       <div className="status-radio-container">
         <Radio.Group className="status-radio-group" value={status} onChange={e => setStatus(e.target.value)} buttonStyle="solid" size="small">
           <Radio.Button value="All">All</Radio.Button>
@@ -160,7 +161,7 @@ const CandidateList = () => {
           <Radio.Button value="Previous">Previous</Radio.Button>
         </Radio.Group>
       </div>
-      <Card className="candidate-card">
+      <Card className="card">
         <Table
           rowKey='_id'
           columns={tableColumns}

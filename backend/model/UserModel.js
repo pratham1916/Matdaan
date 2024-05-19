@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const paginate = require('mongoose-paginate-v2')
 
 const UserSchema = new mongoose.Schema({
     fullname: { type: String, required: true },
@@ -15,6 +16,7 @@ const UserSchema = new mongoose.Schema({
     status: { type: String, default: "Not Verified" }
 }, { versionKey: false });
 
+UserSchema.plugin(paginate);
 const UserModel = mongoose.model("user", UserSchema)
 
 module.exports = UserModel

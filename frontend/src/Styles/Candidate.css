@@ -8,6 +8,13 @@
     background-position: center;
     height: 40vh;
 }
+.voters-banner {
+    margin-top:50px;
+    background-image: url("../images/candidate-banner.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 40vh;
+}
 
 .addCandidate-button{
     color: white;
