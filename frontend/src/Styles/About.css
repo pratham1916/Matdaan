@@ -1,0 +1,372 @@
+
+#hamBurger {
+    display: none;
+}
+
+.button {
+    padding: 7px 10px;
+    color: #fff;
+    animation: none;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+    background-color: #ff4000;
+}
+
+#home {
+    width: 100%;
+    padding: 3rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.home-left {
+    height: 300px;
+    position: relative;
+}
+
+.home-left img {
+    height: 100%;
+    border-radius: 10px;
+}
+
+.home-right {
+    width: 50%;
+}
+
+.home-heading {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.home-para {
+    margin-bottom: 20px;
+}
+
+.btn {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    position: relative;
+    width: 0;
+}
+
+.btn:hover::after {
+    content: '';
+    height: 4px;
+    position: absolute;
+    background-color: #ff4000;
+    left: 0;
+    bottom: -10px;
+    animation: width;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+    border-radius: 5px;
+}
+
+@keyframes width {
+    0% {
+        width: 0%;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+#workFlow {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.heading {
+    margin: 1rem auto;
+    text-align: center;
+}
+
+.para {
+    margin: 1rem auto;
+}
+
+.num-container {
+    width: 70%;
+    margin: 1rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.num-item {
+    font-size: 1.5rem;
+    line-height: 1.4rem;
+    color: #ff4000;
+}
+
+/* Our Goal */
+#rules {
+    width: 80%;
+    margin: 2rem auto;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.rules-left {
+    width: 60%;
+    line-height: 2rem;
+}
+
+.rules-left h2 {
+    font-size: 2.4rem;
+}
+
+.rules-left p {
+    line-height: 1.5rem;
+    margin: 1rem 0;
+}
+
+.rules-left ul {
+    list-style: none;
+    margin-bottom: 1rem;
+}
+
+.rules-left ul li::before {
+    line-height: 1.5rem;
+    content: '✓';
+    color: red;
+}
+
+.rules-left {
+    position: relative;
+    width: 35%;
+}
+
+/* Our Team */
+#our-Team {
+    width: 80%;
+    margin: 4rem auto 1rem;
+}
+
+#our-Team h2 {
+    text-align: center;
+    margin: 1rem auto 4rem;
+    position: relative;
+}
+
+#our-Team h2::after {
+    content: '';
+    height: 4px;
+    margin: 0 auto;
+    text-align: center;
+    width: 15%;
+    background-color: #ff4000;
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    border-radius: 5px;
+    transform: translate(-50%);
+}
+
+.teamContainer {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.our-team {
+    padding: 40px 0 50px;
+    margin-bottom: 30px;
+    background-color: #f7f5ec;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .our-team .picture {
+    display: inline-block;
+    height: 130px;
+    width: 130px;
+    margin-bottom: 50px;
+    z-index: 1;
+    position: relataive;
+  }
+  
+  .our-team .picture::before {
+    content: "";
+    width: 100%;
+    height: 0;
+    border-radius: 50%;
+    background-color: #ff4000;
+    position: absolute;
+    bottom: 135%;
+    right: 0;
+    left: 0;
+    opacity: 0.9;
+    transform: scale(3);
+    transition: all 0.3s linear 0s;
+  }
+  
+  .our-team:hover .picture::before {
+    height: 100%;
+  }
+  
+  .our-team .picture::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #ff4000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+  
+  .our-team .picture img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    transform: scale(1);
+    transition: all 0.9s ease 0s;
+  }
+  
+  .our-team:hover .picture img {
+    box-shadow: 0 0 0 14px #f7f5ec;
+    transform: scale(0.7);
+  }
+  
+  .our-team .title {
+    display: block;
+    font-size: 15px;
+    color: #4e5052;
+    text-transform: capitalize;
+  }
+  
+  .our-team .social {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    background-color: #ff4000;
+    position: absolute;
+    bottom: -100px;
+    left: 0;
+    transition: all 0.5s ease 0s;
+  }
+  
+  .our-team:hover .social {
+    bottom: 0;
+  }
+  
+  .our-team .social li {
+    display: inline-block;
+  }
+  
+  .our-team .social li a {
+    display: block;
+    padding: 10px;
+    font-size: 17px;
+    color: white;
+    transition: all 0.3s ease 0s;
+    text-decoration: none;
+  }
+  
+  .our-team .social li a:hover {
+    color: #ff4000;
+    background-color: #f7f5ec;
+  }
+  
+
+footer {
+    padding: 1rem 0;
+    text-align: center;
+}
+
+
+@media screen and (max-width: 784px) {
+    #list {
+        display: none;
+    }
+
+    #hamBurger {
+        cursor: pointer;
+        display: block;
+        z-index: 20;
+        font-size: 2rem;
+    }
+
+    .navbar .responsive {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0%;
+        left: 100%;
+        padding: 2rem 0;
+        z-index: 2;
+        height: 100vh;
+        background-color: rgb(24, 23, 24);
+        width: 100%;
+        transition: all 0.5s linear;
+        opacity: 0.9;
+    }
+
+    .navbar ul li {
+        margin: 0.4rem 0;
+    }
+
+    .responsive.active {
+        left: 0%;
+    }
+
+    .rules-left {
+        width: 100%;
+        text-align: center;
+    }
+
+    #goal {
+        flex-direction: column-reverse;
+    }
+}
+
+@media screen and (max-width: 633px) {
+    #home {
+        flex-direction: column;
+    }
+
+    .home-left {
+        width: 100%;
+        height: auto;
+    }
+
+    .home-left img {
+        width: 100%;
+    }
+
+    .home-right {
+        margin-top: 2rem;
+        width: 100%;
+    }
+
+    .para {
+        width: 90%;
+    }
+
+    .num-container {
+        flex-direction: column;
+    }
+
+    .num-item {
+        margin: 4rem;
+    }
+
+    .teamContainer {
+        justify-content: center;
+    }
+}
