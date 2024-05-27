@@ -31,29 +31,42 @@
 
 .action-buttons {
     display: flex;
-    gap: 10px;
+    gap: 5px;
     
 }
 
-.status-button {
-    background-color: #52c41a;
-    border: none;
+.status-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #56ff019d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.status-button:hover {
-    background-color: #389e0d;
+.status-icon:hover {
+    background-color: white;
+    border: 1px solid #56ff019d;
+    color: rgb(1, 189, 1);
 }
 
-.delete-button {
-    background-color: #ff4d4f;
-    border: none;
+.delete-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ff01018a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.delete-button:hover {
-    background-color: #d9363e;
+.delete-icon:hover {
+    background-color: white;
+    border: 1px solid #ff01018a;
+    color: red;
 }
 
-/* Media Queries */
 @media (max-width: 1200px) {
     .list-section {
         padding: 15px;

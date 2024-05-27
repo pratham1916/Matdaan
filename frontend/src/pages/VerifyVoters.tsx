@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Radio, Card, Table, Tag, Modal, Button } from "antd";
+import { Radio, Card, Table, Tag, Modal } from "antd";
 import { ExclamationCircleFilled } from '@ant-design/icons';
 import { format } from 'date-fns';
 import { useDispatch, useSelector } from "react-redux";
@@ -10,20 +10,20 @@ const { confirm } = Modal;
 const VerifyVoter = () => {
   const [status, setStatus] = useState("All");
   const dispatch = useDispatch();
-  const { voters, isLoading } = useSelector((state: any) => state.voters);
+  const { voters, isLoading, total } = useSelector((state: any) => state.voters);
 
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 5,
-    showSizeChanger: true
+    pageSize: 10,
+    total: 0,
   });
 
-  const onLoad = async (page = 1) => {
+  const onLoad = (page: number = pagination.current, limit: number = pagination.pageSize) => {
     const filter: any = {};
-    if (status !== "All") {
+    if (status !== 'All') {
       filter.status = status;
     }
-    dispatch(getVoters(filter, page));
+    dispatch(getVoters(filter, page, limit));
   };
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const VerifyVoter = () => {
       icon: <ExclamationCircleFilled />,
       onOk() {
         dispatch(updateVoterStatus(id, newStatus, voterId, email));
-        onLoad();
+        onLoad(pagination.current);
       }
     });
   };
@@ -47,7 +47,7 @@ const VerifyVoter = () => {
       icon: <ExclamationCircleFilled />,
       onOk() {
         dispatch(deleteVoters(id));
-        onLoad();
+        onLoad(pagination.current);
       }
     });
   };
@@ -72,7 +72,7 @@ const VerifyVoter = () => {
       render: (email: string) => (
         <span>{email}</span>
       ),
-      width: 200
+      width: 250
     },
     {
       title: "Phone",
@@ -96,7 +96,7 @@ const VerifyVoter = () => {
       render: (dob: string) => (
         <span>{format(new Date(dob), 'dd MMM yyyy')}</span>
       ),
-      width: 150
+      width: 120
     },
     {
       title: "Age",
@@ -129,15 +129,15 @@ const VerifyVoter = () => {
         < div className="action-buttons">
           {status === "Not Verified" &&
             <>
-              <Button type="default" className="status-button" onClick={() => onChangeStatus(record._id, "Verified", record.voterId, record.email)}>Verify</Button>
-              <Button type="default" className="delete-button" onClick={() => onDeleteVoter(record._id)}>Delete</Button>
+              <i className="fa-solid fa-check status-icon " onClick={() => onChangeStatus(record._id, "Verified", record.voterId, record.email)}></i>
+              <i className="fa-solid fa-trash-can delete-icon" onClick={() => onDeleteVoter(record._id)}></i>
             </>
           }
-          {status === "Verified" && <Button type="default" className="status-button" onClick={() => onDeleteVoter(record._id)}>Delete</Button>}
+          {status === "Verified" && <i className="fa-solid fa-trash-can delete-icon" onClick={() => onDeleteVoter(record._id)}></i>}
           {status === "All" && <Tag color={record.status === "Not Verified" ? "red" : "green"}>{record.status}</Tag>}
         </div>
       ),
-      width: 200
+      width: 120
     }
   ];
 
@@ -162,6 +162,11 @@ const VerifyVoter = () => {
             onChange={onTableChange}
             loading={isLoading}
             scroll={{ y: "50vh" }}
+            sticky
+            pagination={{
+              ...pagination,
+              total: total,
+            }}
           />
         </Card>
       </section>

@@ -3,27 +3,27 @@ const userRouter = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const UserModel = require('../model/UserModel');
+const nodemailer = require('nodemailer');
 const { auth } = require('../middleware/auth.middleware');
 const { access } = require('../middleware/access.middleware');
-const nodemailer = require('nodemailer');   
-require("dotenv").config()
+require("dotenv").config();
 
 userRouter.get("/", auth, access("admin"), async (req, res) => {
-    res.send("Hello")
-})
+    res.send("Hello, Admin");
+});
 
 userRouter.post("/register", async (req, res) => {
     const { fullname, email, phone, gender, dob, state, city, password } = req.body;
     try {
-        const oldName = await UserModel.find({ fullname: fullname });
-        const oldEmail = await UserModel.find({ email: email });
+        const existingUserByName = await UserModel.findOne({ fullname });
+        const existingUserByEmail = await UserModel.findOne({ email });
 
-        if (fullname && oldName.length > 0) {
-            return res.send({ message: "Name has already Exists", status: "error" });
-        };
-        if (email && oldEmail.length > 0) {
-            return res.send({ message: "Email has already Exists", status: "error" });
-        };
+        if (existingUserByName) {
+            return res.status(400).json({ message: "Name already exists", status: "error" });
+        }
+        if (existingUserByEmail) {
+            return res.status(400).json({ message: "Email already exists", status: "error" });
+        }
 
         bcrypt.hash(password, 5, async (err, hash) => {
             if (err) {
@@ -36,68 +36,77 @@ userRouter.post("/register", async (req, res) => {
                 fullname, email, phone, gender, dob, voterId: vId, state, city, password: hash
             });
             await user.save();
-            return res.send({ status: "success", message: "Registration Susscessfull", user })
-        })
+            return res.status(201).json({ status: "success", message: "Registration Successful" });
+        });
+    } catch (error) {
+        res.status(400).json({ message: "Registration Failed", status: "error" });
     }
-    catch (error) {
-        res.status(400).json({ message: "Registration Failed" });
-    }
-})
+});
 
 userRouter.post("/login", async (req, res) => {
-    const { voterId, password } = req.body
+    const { voterId, password } = req.body;
     try {
         const user = await UserModel.findOne({ voterId }).select('+password');
         if (user) {
             if (user.status === "Not Verified") {
-                return res.send({ message: "You are not Verified User", status: 'error' })
-            }
-            else {
+                return res.status(400).json({ message: "You are not a verified user", status: 'error' });
+            } else {
                 bcrypt.compare(password, user.password, (err, result) => {
                     if (result) {
-                        const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY)
-                        res.status(200).json({ message: "Login Successfull", token, user })
+                        const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY);
+                        res.status(200).json({ message: "Login Successful", token, user });
                     } else {
-                        res.status(400).json({ message: "Wrong VoterId Or Password" });
+                        res.status(400).json({ message: "Wrong Voter ID or Password", status: "error" });
                     }
-                })
+                });
             }
-        }
-        else {
-            res.status(400).json({ message: "Voter Id not exists", status: 'error' });
+        } else {
+            res.status(400).json({ message: "Voter ID does not exist", status: 'error' });
         }
     } catch (error) {
-        res.status(400).json({ message: error });
+        res.status(400).json({ message: "Login Failed", status: "error" });
     }
-})
+});
+
+userRouter.get("/voters/:id", async (req, res) => {
+    try {
+        const user = await UserModel.findById(req.params.id);
+        if (user) {
+            res.status(200).json({ status: 'success', isVoteStart: user.isVoteStart });
+        } else {
+            res.status(404).json({ status: 'error', message: 'User not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: 'Error fetching data' });
+    }
+});
 
 userRouter.get('/voters', auth, access("admin"), async (req, res) => {
     try {
-        const page = req.query.page;
-
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
         const filters = JSON.parse(req.get('filters') || '{}');
-        const query = filters && filters.status ? { status: filters.status } : {};
-        const options = { page: Number(page), limit: 10 };
+        const query = filters.status ? { status: filters.status } : {};
+        const options = { page, limit };
         const voters = await UserModel.paginate(query, options);
-        return res.send({
+        res.status(200).json({
             status: "success",
             voters: voters.docs,
             count: voters.totalDocs,
             pages: voters.totalPages
         });
-    } catch {
-        return res.send({ status: "error", message: "Error fetching data" });
+    } catch (error) {
+        res.status(500).json({ status: "error", message: "Error fetching data" });
     }
 });
 
+
 userRouter.put('/voters/:id', async (req, res) => {
     const updateData = req.body;
-    const userId = req.params.id;
-
     try {
-        const result = await UserModel.updateOne({ _id: userId }, { $set: updateData });
+        const result = await UserModel.findByIdAndUpdate(req.params.id, updateData, { new: true });
         if (updateData.status === "Verified") {
-            const from = "pnemade1916@gmail.com";
+            const from = process.env.EMAIL_USER;
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
@@ -107,7 +116,7 @@ userRouter.put('/voters/:id', async (req, res) => {
             });
 
             const mailOptions = {
-                from: from,
+                from,
                 to: updateData.email,
                 subject: 'Election Commission Of India',
                 text: `Your voter ID is ${updateData.voterId}. Thank you!`
@@ -121,11 +130,9 @@ userRouter.put('/voters/:id', async (req, res) => {
                 }
             });
         }
-        return res.send({ status: "success", message: "User updated successfully" });
-
+        res.status(200).json({ status: "success", message: "User updated successfully", user: result });
     } catch (error) {
-        console.error('Error updating user:', error);
-        return res.send({ status: "error", message: "Error updating data" });
+        res.status(500).json({ status: "error", message: "Error updating data" });
     }
 });
 
@@ -133,17 +140,15 @@ userRouter.delete('/voters/:id', auth, access("admin"), async (req, res) => {
     try {
         const result = await UserModel.findByIdAndDelete(req.params.id);
         if (result) {
-            return res.send({ status: "success", message: "Candidate deleted successfully" });
+            res.status(200).json({ status: "success", message: "User deleted successfully" });
         } else {
-            return res.status(404).send({ status: "error", message: "Candidate not found" });
+            res.status(404).json({ status: "error", message: "User not found" });
         }
     } catch (error) {
-        return res.status(500).send({ status: "error", message: "Error deleting data", error });
+        res.status(500).json({ status: "error", message: "Error deleting data", error });
     }
 });
 
-
-
 module.exports = {
     userRouter
-}
+};

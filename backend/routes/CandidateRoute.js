@@ -4,19 +4,19 @@ const upload = require('../middleware/upload.middleware');
 const CandidateModel = require("../model/CandidateModel");
 const { auth } = require("../middleware/auth.middleware");
 const { access } = require("../middleware/access.middleware");
-const {each} = require("lodash");
+const { each } = require("lodash");
 const path = require('path');
 
 const uploadFields = upload.fields([{ name: "profilePic" }, { name: "signature" }]);
 
 
-candidateRouter.get('/',auth, access("admin"), async (req, res) => {
+candidateRouter.get('/', auth, access("admin"), async (req, res) => {
     try {
-        const page  = req.query.page;
-    
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
         const filters = JSON.parse(req.get('filters') || '{}');
         const query = filters && filters.status ? { status: filters.status } : {};
-        const options = { page: Number(page), limit: 10 };
+        const options = { page, limit };
         const candidates = await CandidateModel.paginate(query, options);
         return res.send({
             status: "success",
@@ -25,7 +25,7 @@ candidateRouter.get('/',auth, access("admin"), async (req, res) => {
             pages: candidates.totalPages
         });
     } catch {
-        return res.send({status: "error",message: "Error fetching data"});
+        return res.send({ status: "error", message: "Error fetching data" });
     }
 });
 
@@ -39,22 +39,22 @@ candidateRouter.post("/", auth, access("admin"), uploadFields, async (req, res) 
         }
 
         const candidate = await CandidateModel.create({
-            fullname, email, gender, dob, voterId, adharId, phone, state, city, party, position,status: "Previous"
+            fullname, email, gender, dob, voterId, adharId, phone, state, city, party, position, status: "Previous"
         });
-        
+
         const toUpdate = {};
         const multiple = [];
 
         each(req.files, (files, fieldname) => {
-            const  multerFiles = files;
+            const multerFiles = files;
             if (multiple.includes(fieldname)) {
                 toUpdate[fieldname] = map(multerFiles, (file) => path.basename(file.path));
             } else {
                 toUpdate[fieldname] = path.basename(multerFiles[0].path);
             }
         })
-        const result = await CandidateModel.updateOne({_id: candidate._id}, {$set: toUpdate});
-        return res.send({status: "success", message: "Candidate Added Succesfully"})
+        const result = await CandidateModel.updateOne({ _id: candidate._id }, { $set: toUpdate });
+        return res.send({ status: "success", message: "Candidate Added Succesfully" })
 
     } catch (error) {
         console.log(error);
@@ -74,7 +74,7 @@ candidateRouter.put('/:id', auth, access("admin"), async (req, res) => {
         if (candidate.status === status) {
             return res.send({ status: "error", message: "Status is already up-to-date" });
         }
-        
+
         if (status === "Current") {
             const existingCurrent = await CandidateModel.findOne({ party: candidate.party, position: candidate.position, status: "Current" });
             if (existingCurrent && existingCurrent._id.toString() !== req.params.id) {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Radio, Card, Table, Tag, Modal, Button } from "antd";
+import { Radio, Card, Table, Tag, Modal } from "antd";
 import { ExclamationCircleFilled } from '@ant-design/icons';
 import { useDispatch, useSelector } from "react-redux";
 import { format } from 'date-fns';
@@ -11,20 +11,20 @@ const { confirm } = Modal;
 const CandidateList = () => {
   const [status, setStatus] = useState("All");
   const dispatch = useDispatch();
-  const { candidates, isLoading } = useSelector((state: any) => state.candidate);
+  const { candidates, isLoading, total } = useSelector((state: any) => state.candidate);
 
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 5,
-    showSizeChanger: true
+    pageSize: 2,
+    total: 0
   });
 
-  const onLoad = (page = 1) => {
+  const onLoad = (page: number = pagination.current, limit: number = pagination.pageSize) => {
     const filter: any = {};
     if (status !== "All") {
       filter.status = status;
     }
-    dispatch(getCandidates(filter, page));
+    dispatch(getCandidates(filter, page, limit));
   };
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const CandidateList = () => {
       icon: <ExclamationCircleFilled />,
       onOk() {
         dispatch(updateCandidateStatus(id, status));
-        onLoad();
+        onLoad(pagination.current);
       }
     });
   };
@@ -48,7 +48,7 @@ const CandidateList = () => {
       icon: <ExclamationCircleFilled />,
       onOk() {
         dispatch(deleteCandidate(id));
-        onLoad();
+        onLoad(pagination.current);
       }
     });
   };
@@ -74,7 +74,7 @@ const CandidateList = () => {
       title: "Email",
       dataIndex: "email",
       render: (email: string) => <span>{email}</span>,
-      width: 200
+      width: 250
     },
     {
       title: "D.O.B.",
@@ -92,7 +92,7 @@ const CandidateList = () => {
       title: "Voter Id",
       dataIndex: "voterId",
       render: (voterId: string) => <span>{voterId}</span>,
-      width: 200
+      width: 150
     },
     {
       title: "Aadhar",
@@ -128,22 +128,21 @@ const CandidateList = () => {
       title: "Position",
       dataIndex: "position",
       render: (position: string) => <span>{position}</span>,
-      width: 100
+      width: 150
     },
     {
       title: status === "All" ? "Status" : "Action",
       dataIndex: "status",
       render: (_: any, record: any) => (
         <div className="action-buttons">
-          {status === "Current" && <Button type="default" className="status-button" onClick={() => onChangeStatus(record._id, "Previous")}>Previous</Button>}
-          {status === "Previous" && <Button type="default" className="status-button" onClick={() => onChangeStatus(record._id, "Current")}>Current</Button>}
+          {status === "Current" && <i className="fa-solid fa-check status-icon " onClick={() => onChangeStatus(record._id, "Previous")}></i>}
+          {status === "Previous" && <i className="fa-solid fa-check status-icon " onClick={() => onChangeStatus(record._id, "Current")}></i>}
           {status === "All" && <Tag color={record.status === "Previous" ? "red" : "green"}>{record.status}</Tag>}
-          <Button className="delete-button" onClick={() => onDeleteCandidate(record._id)}>Delete</Button>
-          
+          {status !== "All" && <i className="fa-solid fa-trash-can delete-icon" onClick={() => onDeleteCandidate(record._id)}></i>}
         </div>
       ),
-      width: 200
-      
+      width: 120
+
     },
   ];
 
@@ -169,6 +168,11 @@ const CandidateList = () => {
           onChange={onTableChange}
           loading={isLoading}
           scroll={{ y: "50vh" }}
+          sticky
+          pagination={{
+            ...pagination,
+            total: total,
+          }}
         />
       </Card>
     </section>
