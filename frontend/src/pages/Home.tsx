@@ -31,7 +31,7 @@ const Home = () => {
         <div className={`content ${!loading ? "visible" : ""}`}>
           <h1>{activeContent.title}</h1>
           <p>{activeContent.description}</p>
-          <Link className="createTrip" to='/createMyTrip'>Create my trip</Link>
+          <Link className="createTrip" to='/createMyTrip'>Matdaan</Link>
         </div>
         <div className="media-icons">
           <Link className="icon" to="#"><i className="fa-brands fa-square-facebook"></i></Link>
@@ -47,8 +47,7 @@ const Home = () => {
 
       <section className="home-section">
         <div className="section_title">
-          <h2>Team</h2>
-          <p>Our Hadrworking Team</p>
+          
         </div>
       </section>
     </>
