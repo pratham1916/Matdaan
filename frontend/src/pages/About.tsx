@@ -1,11 +1,14 @@
-import "../styles/About.css"
+import "../styles/About.css";
 
 const About = () => {
+
+ 
+
   return (
     <section className='about'>
-      about 
+      about
     </section>
-  )
-}
+  );
+};
 
-export default About
+export default About;
