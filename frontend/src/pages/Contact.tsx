@@ -1,6 +1,4 @@
 import "../styles/Contact.css"
-import { useEffect } from "react";
-
 const Contact = () => {
   
   return (
